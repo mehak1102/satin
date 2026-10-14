@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+coverage/
+client/dist/
+server/uploads/
+server/public/products/uploads/
+server/public/notes/uploads/
+server/public/avatars/uploads/
+_product_extract/
+_listing.txt
+.vite/

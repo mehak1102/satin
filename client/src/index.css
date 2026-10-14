@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-sans: "Outfit", "Segoe UI", sans-serif;
+  --font-poster: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-ivory: #fbf6f1;
+  --color-paper: #fffdfb;
+  --color-blush: #f4d5dc;
+  --color-rose: #c45d73;
+  --color-plum: #6d294f;
+  --color-ink: #14384c;
+  --color-ink-soft: #3d5c6e;
+  --color-charcoal: #2a2426;
+  --color-line: #eadfd8;
+  --color-teal: #1d4e63;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-ivory);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: #f4d5dc;
+  color: #14384c;
+}
+
+:focus-visible {
+  outline: 2px solid #1d4e63;
+  outline-offset: 3px;
+}
+
+button.rounded-full,
+a.rounded-full {
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+button.rounded-full:hover:not(:disabled),
+a.rounded-full:hover {
+  transform: translateY(-1px);
+}
+
+.satin-marquee {
+  animation: satin-marquee 32s linear infinite;
+}
+
+.satin-orbit {
+  animation: satin-orbit 28s linear infinite;
+}
+
+.satin-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+@keyframes satin-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes satin-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .satin-marquee,
+  .satin-orbit {
+    animation: none !important;
+  }
+}

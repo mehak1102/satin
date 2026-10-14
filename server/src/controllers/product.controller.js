@@ -1,0 +1,98 @@
+import mongoose from 'mongoose';
+import { z } from 'zod';
+import { Product } from '../models/Product.js';
+import { ApiError } from '../utils/ApiError.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { parseBody } from '../validators/index.js';
+
+function publicFilter(query) {
+  const filter = { active: true };
+  if (query.category) filter.category = query.category;
+  if (query.size) filter.size = query.size;
+  if (query.featured === 'true') filter.featured = true;
+  if (query.minPrice || query.maxPrice) {
+    const price = {};
+    const min = Number(query.minPrice);
+    const max = Number(query.maxPrice);
+    if (query.minPrice && Number.isFinite(min)) price.$gte = min;
+    if (query.maxPrice && Number.isFinite(max)) price.$lte = max;
+    if (Object.keys(price).length) filter.price = price;
+  }
+  if (query.q) {
+    filter.$text = { $search: String(query.q).slice(0, 80) };
+  }
+  return filter;
+}
+
+function sortFromQuery(sort) {
+  switch (sort) {
+    case 'price-asc':
+      return { price: 1 };
+    case 'price-desc':
+      return { price: -1 };
+    case 'newest':
+      return { createdAt: -1 };
+    case 'rating':
+      return { rating: -1, reviewCount: -1 };
+    default:
+      return { featured: -1, createdAt: -1 };
+  }
+}
+
+function emptyTextSearch(error) {
+  const message = String(error?.message || '');
+  return /stop word|no valid search|requires a language/i.test(message);
+}
+
+export const listProducts = asyncHandler(async (req, res) => {
+  const page = Math.max(1, Number(req.query.page) || 1);
+  const limit = Math.min(48, Math.max(1, Number(req.query.limit) || 12));
+  const filter = publicFilter(req.query);
+  try {
+    const [items, total] = await Promise.all([
+      Product.find(filter)
+        .select('-dataNotes')
+        .sort(sortFromQuery(req.query.sort))
+        .skip((page - 1) * limit)
+        .limit(limit),
+      Product.countDocuments(filter),
+    ]);
+    res.json({ success: true, items, total, page, pages: Math.ceil(total / limit) });
+  } catch (error) {
+    if (!emptyTextSearch(error)) throw error;
+    res.json({ success: true, items: [], total: 0, page, pages: 0 });
+  }
+});
+
+export const getProductBySlug = asyncHandler(async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug, active: true }).select('-dataNotes');
+  if (!product) throw new ApiError(404, 'Product not found.');
+  res.json({ success: true, product });
+});
+
+const availabilityBody = z.object({
+  ids: z.array(z.string()).max(20).optional().default([]),
+});
+
+export const checkAvailability = asyncHandler(async (req, res) => {
+  const { ids } = parseBody(availabilityBody, req.body || {});
+  const unique = [...new Set(ids.map(String))].filter((id) => mongoose.isValidObjectId(id)).slice(0, 20);
+  const products = await Product.find({ _id: { $in: unique }, active: true }).select('name slug price images stock');
+  res.json({
+    success: true,
+    items: products.map((product) => ({
+      id: String(product._id),
+      slug: product.slug,
+      name: product.name,
+      price: product.price,
+      image: product.images?.[0]?.url || '',
+      stock: product.stock,
+    })),
+  });
+});
+
+export const listCategories = asyncHandler(async (_req, res) => {
+  const categories = await Product.distinct('category', { active: true });
+  const sizes = await Product.distinct('size', { active: true, size: { $ne: '' } });
+  res.json({ success: true, categories, sizes });
+});
