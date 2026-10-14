@@ -86,12 +86,20 @@ export async function createRazorpayCheckout({ user, contactEmail, shippingAddre
     orderStatus: 'pending',
   });
 
-  const razorpayOrder = await razorpay.orders.create({
-    amount: toPaise(quote.total),
-    currency: 'INR',
-    receipt: order.orderNumber.slice(0, 40),
-    notes: { orderId: order._id.toString(), orderNumber: order.orderNumber },
-  });
+  let razorpayOrder;
+  try {
+    razorpayOrder = await razorpay.orders.create({
+      amount: toPaise(quote.total),
+      currency: 'INR',
+      receipt: order.orderNumber.slice(0, 40),
+      notes: { orderId: order._id.toString(), orderNumber: order.orderNumber },
+    });
+  } catch (error) {
+    // Razorpay's own 401 must not reach the browser, where it reads as a signed-out session.
+    await Order.deleteOne({ _id: order._id });
+    console.error('Razorpay order failed:', error?.statusCode, error?.error?.description || error?.message);
+    throw new ApiError(502, 'Payment could not be started. Please try again shortly.');
+  }
 
   order.razorpayOrderId = razorpayOrder.id;
   await order.save();
