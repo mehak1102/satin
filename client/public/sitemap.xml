@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>http://localhost:5173/</loc></url>
-  <url><loc>http://localhost:5173/shop</loc></url>
-  <url><loc>http://localhost:5173/about</loc></url>
-  <url><loc>http://localhost:5173/blogs</loc></url>
-  <url><loc>http://localhost:5173/faq</loc></url>
-  <url><loc>http://localhost:5173/contact</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/shop</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/tracker</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/about</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/blogs</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/faq</loc></url>
+  <url><loc>https://satin-ggk8.onrender.com/contact</loc></url>
 </urlset>
