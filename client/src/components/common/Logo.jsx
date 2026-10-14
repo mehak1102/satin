@@ -1,17 +1,15 @@
-export function Logo({ className = "h-8" }) {
+import fullLogo from "../../assets/satin-logo.png";
+import wordmark from "../../assets/satin-wordmark.png";
+
+export function Logo({ className = "h-8", withTagline = false, light = false }) {
   return (
-    <svg className={className} viewBox="0 0 168 48" role="img" aria-label="Satin">
-      <text
-        x="0"
-        y="36"
-        fill="currentColor"
-        fontFamily="Fraunces, Georgia, serif"
-        fontSize="40"
-        fontStyle="italic"
-        fontWeight="560"
-      >
-        Satin
-      </text>
-    </svg>
+    <img
+      src={withTagline ? fullLogo : wordmark}
+      alt={withTagline ? "Satin - soft absorbent for bold moves" : "Satin"}
+      width={1024}
+      height={withTagline ? 377 : 339}
+      className={`${className} w-auto ${light ? "brightness-0 invert" : ""}`}
+      draggable="false"
+    />
   );
 }

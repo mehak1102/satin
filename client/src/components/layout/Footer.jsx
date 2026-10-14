@@ -49,7 +49,7 @@ export function Footer() {
     <footer className="mt-20 border-t border-line bg-ink text-paper">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2">
-          <Logo className="h-10 text-paper" />
+          <Logo className="h-20" withTagline light />
           <p className="mt-4 max-w-xs text-sm leading-6 text-paper/75">
             Soft absorbent pads for bold moves. Marketed by Parivar Seva Sanstha.
           </p>
