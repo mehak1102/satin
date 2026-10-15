@@ -147,7 +147,7 @@ export function BuyerVoices({ reviews, packs, reduce }) {
         <div className="relative pb-4">
           <motion.h2
             id="buyer-voices-title"
-            className="font-display text-[10.4vw] leading-[0.95] font-medium tracking-[-0.02em] whitespace-nowrap sm:text-[12vw]"
+            className="font-jost text-[10.4vw] leading-[0.95] font-medium tracking-[-0.02em] whitespace-nowrap sm:text-[12vw]"
             initial={reduce ? false : "hidden"}
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}

@@ -46,7 +46,7 @@ export function Footer() {
   const social = savedSocialLinks(settings.data?.social);
 
   return (
-    <footer className="mt-20 border-t border-line bg-ink text-paper">
+    <footer className="mt-20 border-t border-line bg-ink font-jost text-paper">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2">
           <Logo className="h-20" withTagline light />
@@ -90,7 +90,7 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-5 py-8">
-          <Title as="h2" className="font-display text-3xl text-paper">Notes</Title>
+          <Title as="h2" className="text-3xl font-medium text-paper">Notes</Title>
           <p className="mt-2 max-w-md text-sm text-paper/75">Leave an email for product notes.</p>
           <div className="mt-4 max-w-sm">
             <NewsletterForm tone="dark" />

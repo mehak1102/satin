@@ -3,6 +3,7 @@
 @theme {
   --font-display: "Fraunces", "Times New Roman", serif;
   --font-sans: "Outfit", "Segoe UI", sans-serif;
+  --font-jost: "Jost", "Segoe UI", sans-serif;
   --font-poster: "Bebas Neue", "Arial Narrow", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --color-ivory: #fbf6f1;
