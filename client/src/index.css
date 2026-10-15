@@ -66,6 +66,16 @@ a.rounded-full:hover {
   pointer-events: none;
 }
 
+.satin-scan-pulse {
+  animation: satin-scan-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes satin-scan-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
 @keyframes satin-orbit {
   to {
     transform: rotate(360deg);
@@ -95,7 +105,8 @@ a.rounded-full:hover {
   }
 
   .satin-marquee,
-  .satin-orbit {
+  .satin-orbit,
+  .satin-scan-pulse {
     animation: none !important;
   }
 }

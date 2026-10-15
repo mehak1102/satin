@@ -10,6 +10,7 @@ import { BuyerVoices } from "../../components/home/BuyerVoices";
 import { RegularHalo, RegularStage } from "../../components/home/RegularStage";
 import { CarryGlow, CarryNight } from "../../components/home/CarryStage";
 import { PackStories } from "../../components/home/PackStories";
+import { PadScanner } from "../../components/home/PadScanner";
 import { useWideScreen } from "../../hooks/useWideScreen";
 import { LoadError } from "../../components/product/CatalogStatus";
 import { printedLines, printedQuestions } from "../../content/packCopy";
@@ -263,6 +264,8 @@ export function HomePage() {
           </ul>
         </div>
       </Reveal>
+
+      <PadScanner packs={ordered} reduce={reduce} />
 
       <BuyerVoices reviews={reviews} packs={ordered} reduce={reduce} />
 
