@@ -35,19 +35,10 @@ export function WhyChooseSatin({ reduce }) {
   return (
     <section
       aria-labelledby="why-choose-satin-title"
-      className="relative overflow-hidden bg-[linear-gradient(165deg,#f7ebe6_0%,#f3eee8_42%,#e8f0f4_100%)] text-ink"
+      className="bg-[#f3e4dc] text-ink"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 right-[-10%] h-72 w-72 rounded-full bg-[#f4c9c4]/45 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-20%] left-[-8%] h-80 w-80 rounded-full bg-[#c9dce8]/50 blur-3xl"
-      />
-
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-16 lg:py-24">
-        <div className="lg:sticky lg:top-28">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-24">
+        <div>
           <p className="text-[11px] tracking-[0.28em] uppercase text-ink-soft">The satin way</p>
           <motion.h2
             id="why-choose-satin-title"
@@ -62,6 +53,19 @@ export function WhyChooseSatin({ reduce }) {
           <p className="mt-5 max-w-sm text-sm leading-7 text-ink-soft">
             Five quiet reasons — pulled from what’s printed, not from a pitch deck.
           </p>
+          <motion.figure
+            className="mt-8"
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+          >
+            <img
+              src="/home/why-satin-bouquet.png"
+              alt="Illustrated bouquet of peonies, sunflowers, and irises"
+              className="mx-auto block h-auto w-full max-w-md object-contain drop-shadow-[0_18px_40px_rgba(40,20,20,0.12)]"
+            />
+          </motion.figure>
           <Link
             to="/shop"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm text-ivory"
