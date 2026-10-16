@@ -13,6 +13,7 @@ import { PackStories } from "../../components/home/PackStories";
 import { PadScanner } from "../../components/home/PadScanner";
 import { KnowMoreBasics } from "../../components/home/KnowMoreBasics";
 import { KnowCue } from "../../components/home/KnowCue";
+import { WhyChooseSatin } from "../../components/home/WhyChooseSatin";
 import { useWideScreen } from "../../hooks/useWideScreen";
 import { LoadError } from "../../components/product/CatalogStatus";
 import { printedLines, printedQuestions } from "../../content/packCopy";
@@ -316,6 +317,8 @@ export function HomePage() {
           </ul>
         </div>
       </Reveal>
+
+      <WhyChooseSatin reduce={reduce} />
 
       <PadScanner packs={ordered} reduce={reduce} />
 
