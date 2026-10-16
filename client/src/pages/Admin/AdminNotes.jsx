@@ -3,8 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Retry } from "../../components/admin/Retry";
 import { apiErrorMessage, inputClass } from "../../components/form/Field";
+import { periodBasicsTopics } from "../../content/periodBasics";
 import { api } from "../../services/api";
 import { Title } from "../../components/motion/Title";
+
+const noteCategories = ["Journal", ...periodBasicsTopics];
+
 
 export function AdminNotes() {
   const notes = useQuery({
@@ -128,7 +132,13 @@ export function AdminNoteEditor() {
       </label>
       <label className="text-sm">
         Category
-        <input name="category" defaultValue={current?.category || "Journal"} className={inputClass} />
+        <select name="category" defaultValue={current?.category || "Journal"} className={inputClass}>
+          {[...new Set([...noteCategories, current?.category].filter(Boolean))].map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="text-sm">
         Excerpt

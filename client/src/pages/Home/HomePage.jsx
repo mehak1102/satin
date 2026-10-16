@@ -11,6 +11,8 @@ import { RegularHalo, RegularStage } from "../../components/home/RegularStage";
 import { CarryGlow, CarryNight } from "../../components/home/CarryStage";
 import { PackStories } from "../../components/home/PackStories";
 import { PadScanner } from "../../components/home/PadScanner";
+import { KnowMoreBasics } from "../../components/home/KnowMoreBasics";
+import { KnowCue } from "../../components/home/KnowCue";
 import { useWideScreen } from "../../hooks/useWideScreen";
 import { LoadError } from "../../components/product/CatalogStatus";
 import { printedLines, printedQuestions } from "../../content/packCopy";
@@ -84,6 +86,55 @@ const bandFeatures = {
     { icon: Feather, label: ["Ultra soft", "& thin"] },
     { icon: ShieldCheck, label: ["Pads", "with wings"] },
   ],
+};
+
+// Soft know-more lines on each pack band — literacy only, not medical claims.
+const bandKnow = {
+  "satin-ultra-xl-8": {
+    topic: "PCOD",
+    heading: "Heavier days · start with what’s printed on the pack",
+    href: "#know-pcod",
+    bullets: [
+      "XL 8 is for days you want more absorbency — not a PCOD label from a search bar.",
+      "Irregular or heavy-feeling cycles deserve a clinician; Satin stays with soft pads.",
+    ],
+  },
+  "satin-ultra-box": {
+    topic: "PCOS",
+    heading: "Questions first · pads while you wait for real answers",
+    href: "#know-pcos",
+    bullets: [
+      "Ultra is for comfort on bleeding days — it does not diagnose PCOS.",
+      "Bring your questions to a clinician; bring this pack for the days you bleed.",
+    ],
+  },
+  "satin-xl": {
+    topic: "PMS",
+    heading: "Softer hold for the days before it starts",
+    href: "#know-pms",
+    bullets: [
+      "PMS days can feel tender or loud — XL is there when bleeding follows.",
+      "If those days keep stopping school or sleep, ask a clinician — not a shop note.",
+    ],
+  },
+  "satin-regular": {
+    topic: "PMS",
+    heading: "Everyday flow · everyday kindness",
+    href: "#know-pms",
+    bullets: [
+      "Regular fits many ordinary bleeding days when you want soft and simple.",
+      "Track mood and cramps if you like — patterns are for you, not for a label.",
+    ],
+  },
+  "satin-ultra-pack-of-2": {
+    topic: "UTI",
+    heading: "Carry a spare when something feels off",
+    href: "#know-uti",
+    bullets: [
+      "A tiny pack in your bag is for bleeding surprises — not for treating a UTI.",
+      "Burning or urgency that won’t settle needs a clinician, not a scroll.",
+    ],
+  },
 };
 
 // While pinned, a box turns as the page scrolls; `spin` is that extra scroll in svh. Bands stick
@@ -174,6 +225,7 @@ export function HomePage() {
 
   return (
     <div>
+      <KnowCue ready={ordered.length > 0} />
       {(featured.isLoading || catalog.isLoading) && ordered.length === 0 && (
         <section className="bg-teal text-ivory">
           <div className="mx-auto max-w-6xl px-5 py-24">
@@ -267,6 +319,8 @@ export function HomePage() {
 
       <PadScanner packs={ordered} reduce={reduce} />
 
+      <KnowMoreBasics reduce={reduce} />
+
       <BuyerVoices reviews={reviews} packs={ordered} reduce={reduce} />
 
       <Reveal reduce={reduce} className="bg-paper">
@@ -347,12 +401,14 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
   const accentWords = bandAccent[product.slug];
   const accent = accentWords && line?.endsWith(accentWords) ? accentWords : null;
   const features = bandFeatures[product.slug];
+  const know = bandKnow[product.slug];
   const lines = bandLines[product.slug];
   const carry = product.slug === "satin-ultra-pack-of-2";
   const xl = product.slug === "satin-xl";
   const wide = useWideScreen();
   const pin = !reduce && wide && Boolean(Model);
   const stage = lead ? heroPin : bandPin;
+  const soft = carry ? "text-[#b8d4ee]" : "opacity-80";
 
   function addToCart() {
     if (!inStock) return;
@@ -449,9 +505,30 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
               {product.name}
             </motion.p>
             {product.shortDescription && (
-              <motion.p variants={rise} className={`mt-3 max-w-md text-sm leading-6 ${carry ? "text-[#b8d4ee]" : "opacity-80"}`}>
+              <motion.p variants={rise} className={`mt-3 max-w-md text-sm leading-6 ${soft}`}>
                 {product.shortDescription}
               </motion.p>
+            )}
+            {know && (
+              <motion.div variants={rise} className="mt-5 max-w-md">
+                <p className={`text-[11px] tracking-[0.22em] uppercase ${soft}`}>{know.topic}</p>
+                <p className="mt-2 flex gap-2 font-display text-lg leading-snug sm:text-xl">
+                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-55" />
+                  <span>{know.heading}</span>
+                </p>
+                <ul className={`mt-3 space-y-2 border-t border-current/15 pt-3 text-sm leading-6 ${soft}`}>
+                  {know.bullets.map((point) => (
+                    <li key={point} className="flex gap-2.5">
+                      <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-current opacity-50" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a href={know.href} className={`mt-3 inline-flex items-center gap-1.5 text-sm underline decoration-current/30 underline-offset-4 hover:decoration-current ${soft}`}>
+                  More on {know.topic}
+                  <ArrowRight size={14} />
+                </a>
+              </motion.div>
             )}
             {features && (
               <motion.ul variants={rise} className="mt-6 flex divide-x divide-current/15">
@@ -469,7 +546,7 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
                 ))}
               </motion.ul>
             )}
-            <motion.p variants={rise} className={`mt-6 text-sm ${carry ? "text-[#b8d4ee]" : "opacity-80"}`}>
+            <motion.p variants={rise} className={`mt-6 text-sm ${soft}`}>
               {product.packSize ? `${product.packSize} pads` : product.size}
               <span className={`mt-1 block font-display opacity-100 ${carry ? "text-5xl text-white" : "text-4xl"}`}>{formatPrice(product.price)}</span>
             </motion.p>

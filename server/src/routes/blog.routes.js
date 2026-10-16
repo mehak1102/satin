@@ -1,9 +1,16 @@
 import { Router } from 'express';
+import { periodBasicsTopics } from '../content/periodBasics.js';
 import { Blog } from '../models/Blog.js';
 import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router();
+
+function categoriesFromQuery(query) {
+  const raw = query.category;
+  const list = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  return [...new Set(list.map((value) => String(value).trim()).filter(Boolean))];
+}
 
 router.get(
   '/',
@@ -11,7 +18,9 @@ router.get(
     const page = Math.max(1, Number(req.query.page) || 1);
     const limit = Math.min(24, Math.max(1, Number(req.query.limit) || 9));
     const filter = { published: true };
-    if (req.query.category) filter.category = req.query.category;
+    const categories = categoriesFromQuery(req.query);
+    if (categories.length === 1) filter.category = categories[0];
+    else if (categories.length > 1) filter.category = { $in: categories };
     if (req.query.tag) filter.tags = req.query.tag;
     if (req.query.q) filter.$text = { $search: String(req.query.q).slice(0, 80) };
 
@@ -37,7 +46,7 @@ router.get(
   }),
 );
 
-// About 200 words a minute, from the saved article text.
+// Reading time: about 200 words a minute from the saved article text.
 function readingMinutesFor(content) {
   const words = String(content || '')
     .trim()
@@ -50,11 +59,27 @@ function readingMinutesFor(content) {
 router.get(
   '/meta/filters',
   asyncHandler(async (_req, res) => {
-    const [categories, tags] = await Promise.all([
-      Blog.distinct('category', { published: true, category: { $ne: '' } }),
+    const [counts, tags] = await Promise.all([
+      Blog.aggregate([
+        { $match: { published: true, category: { $nin: ['', null] } } },
+        { $group: { _id: '$category', count: { $sum: 1 } } },
+      ]),
       Blog.distinct('tags', { published: true, tags: { $ne: '' } }),
     ]);
-    res.json({ success: true, categories, tags });
+    const byName = Object.fromEntries(counts.map((row) => [row._id, row.count]));
+    const periodBasics = periodBasicsTopics.map((name) => ({ name, count: byName[name] || 0 }));
+    const known = new Set(periodBasicsTopics);
+    const other = counts
+      .filter((row) => !known.has(row._id))
+      .map((row) => ({ name: row._id, count: row.count }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    res.json({
+      success: true,
+      periodBasics,
+      categories: [...periodBasics, ...other].map((item) => item.name),
+      categoryCounts: [...periodBasics, ...other],
+      tags,
+    });
   }),
 );
 
