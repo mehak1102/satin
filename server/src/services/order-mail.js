@@ -33,6 +33,16 @@ export function buildOrderConfirmation(order, support = {}) {
   ].filter(Boolean);
   const care = supportLines(support);
   const link = `${env.clientUrl}/order/${order._id}`;
+  const giftLines = order.isGift
+    ? [
+        '',
+        'This order is a gift.',
+        ...(order.giftNote ? [`Gift note: ${order.giftNote}`] : []),
+      ]
+    : [];
+  const giftHtml = order.isGift
+    ? `<p>This order is a gift.${order.giftNote ? `<br>Gift note: ${escapeHtml(order.giftNote)}` : ''}</p>`
+    : '';
 
   const text = [
     `Your Satin order ${order.orderNumber} is confirmed.`,
@@ -46,6 +56,7 @@ export function buildOrderConfirmation(order, support = {}) {
     '',
     'Ship to:',
     ...addressLines,
+    ...giftLines,
     '',
     `View the order: ${link}`,
     ...(care.length ? ['', 'Customer care:', ...care] : []),
@@ -60,6 +71,7 @@ export function buildOrderConfirmation(order, support = {}) {
     '</ul>',
     `<p>Subtotal ${escapeHtml(inr(order.subtotal))}<br>Shipping ${escapeHtml(inr(order.shipping))}<br>Tax ${escapeHtml(inr(order.tax))}<br>Total ${escapeHtml(inr(order.total))}</p>`,
     `<p>Ship to:<br>${addressLines.map(escapeHtml).join('<br>')}</p>`,
+    giftHtml,
     `<p><a href="${escapeHtml(link)}">View the order</a></p>`,
     ...(care.length ? [`<p>Customer care:<br>${care.map(escapeHtml).join('<br>')}</p>`] : []),
   ].join('');

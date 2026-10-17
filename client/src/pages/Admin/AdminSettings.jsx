@@ -62,6 +62,7 @@ export function AdminSettings() {
       social: {
         instagram: String(form.get("instagram") || "").trim(),
         facebook: String(form.get("facebook") || "").trim(),
+        linkedin: String(form.get("linkedin") || "").trim(),
         youtube: String(form.get("youtube") || "").trim(),
       },
     });
@@ -79,6 +80,7 @@ export function AdminSettings() {
       <p className="text-sm text-ink-soft">Leave a field blank until that address is known. Use a full https link.</p>
       <label className="text-sm">Instagram<input name="instagram" defaultValue={current.social?.instagram || ""} className={inputClass} /></label>
       <label className="text-sm">Facebook<input name="facebook" defaultValue={current.social?.facebook || ""} className={inputClass} /></label>
+      <label className="text-sm">LinkedIn<input name="linkedin" defaultValue={current.social?.linkedin || ""} className={inputClass} /></label>
       <label className="text-sm">YouTube<input name="youtube" defaultValue={current.social?.youtube || ""} className={inputClass} /></label>
 
       <Title as="h2" className="mt-4 font-display text-3xl text-ink">Shipping</Title>

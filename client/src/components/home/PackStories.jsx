@@ -38,8 +38,8 @@ const stories = [
   {
     key: "regular",
     label: "Satin Regular",
-    line: "Soft absorbent for bold moves.",
-    note: "Printed on Satin Regular, with wings and SAP granules.",
+    line: "Have a regular day with Satin.",
+    note: "Soft absorbent for bold moves — wings and SAP granules, printed on the pack.",
     image: "/stories/regular-photo.jpg",
     focus: "center",
     alt: "A woman winking and holding a Satin Regular pack",

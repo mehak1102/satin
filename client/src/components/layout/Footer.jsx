@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSettings } from "../../hooks/useSettings";
 import { Logo } from "../common/Logo";
 import { NewsletterForm } from "../newsletter/NewsletterForm";
-import { savedSocialLinks } from "./SocialLinks";
+import { SocialIconLinks } from "./SocialLinks";
 import { Title } from "../motion/Title";
 
 const columns = [
@@ -45,7 +45,6 @@ const columns = [
 
 export function Footer() {
   const settings = useSettings();
-  const social = savedSocialLinks(settings.data?.social);
 
   return (
     <footer className="mt-20 border-t border-line bg-ink font-jost text-paper">
@@ -60,21 +59,8 @@ export function Footer() {
             <br />
             011-24335055 · Toll free 1800-123-7075
           </p>
+          <SocialIconLinks social={settings.data?.social} className="mt-5" />
         </div>
-        {social.length > 0 && (
-          <div>
-            <Title as="h2" className="text-sm tracking-[0.16em] uppercase text-blush">Social</Title>
-            <ul className="mt-4 space-y-2">
-              {social.map(([label, url]) => (
-                <li key={label}>
-                  <a href={url} className="text-sm text-paper/80 hover:text-paper" rel="noreferrer">
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
         {columns.map((column) => (
           <div key={column.title}>
             <Title as="h2" className="text-sm tracking-[0.16em] uppercase text-blush">{column.title}</Title>

@@ -14,6 +14,7 @@ import { PadScanner } from "../../components/home/PadScanner";
 import { KnowMoreBasics } from "../../components/home/KnowMoreBasics";
 import { KnowCue } from "../../components/home/KnowCue";
 import { WhyChooseSatin } from "../../components/home/WhyChooseSatin";
+import { ComfortAd } from "../../components/home/ComfortAd";
 import { CareRange } from "../../components/home/CareRange";
 import { useWideScreen } from "../../hooks/useWideScreen";
 import { LoadError } from "../../components/product/CatalogStatus";
@@ -86,7 +87,7 @@ const bandFeatures = {
   "satin-ultra-pack-of-2": [
     { icon: Droplet, label: ["3 times", "super absorbent"] },
     { icon: Feather, label: ["Ultra soft", "& thin"] },
-    { icon: ShieldCheck, label: ["Pads", "with wings"] },
+    { icon: ShoppingBag, label: ["Fit in", "your pocket"] },
   ],
 };
 
@@ -320,6 +321,8 @@ export function HomePage() {
       </Reveal>
 
       <WhyChooseSatin reduce={reduce} />
+
+      <ComfortAd reduce={reduce} />
 
       <CareRange reduce={reduce} />
 

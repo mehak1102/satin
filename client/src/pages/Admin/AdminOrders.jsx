@@ -146,7 +146,13 @@ export function AdminOrder() {
         <Title as="h2" className="mt-3 font-display text-4xl text-ink">{data.orderNumber}</Title>
         <p className="mt-2 text-sm text-ink-soft">
           Payment {data.paymentStatus} · {formatPrice(data.total)}
+          {data.isGift ? " · Gift" : ""}
         </p>
+        {data.isGift && (
+          <p className="mt-2 inline-flex rounded-sm bg-[#f6a6cf] px-2 py-1 text-[11px] font-medium tracking-[0.14em] text-[#1d1418] uppercase">
+            Gift
+          </p>
+        )}
         {data.refundSent && <p className="mt-1 text-sm text-ink-soft">A refund note was sent to {data.contactEmail}.</p>}
         <ul className="mt-6 divide-y divide-line">
           {data.items.map((item) => (
@@ -168,6 +174,12 @@ export function AdminOrder() {
           <br />
           {data.shippingAddress.phone}
         </address>
+        {data.isGift && data.giftNote && (
+          <p className="mt-4 rounded-[1rem] bg-blush/50 px-4 py-3 text-sm leading-6 text-ink">
+            <span className="block text-[11px] tracking-[0.16em] text-ink-soft uppercase">Gift note</span>
+            <span className="mt-1 block">{data.giftNote}</span>
+          </p>
+        )}
       </div>
       <form
         className="h-fit space-y-4 rounded-[1.5rem] bg-paper p-6"

@@ -185,6 +185,11 @@ function OrderDetails({ data }) {
             <h2 id="order-address" className="font-display text-3xl font-medium">
               Delivery
             </h2>
+            {data.isGift && (
+              <p className="mt-3 inline-flex rounded-sm bg-[#f6a6cf] px-2 py-1 text-[11px] font-medium tracking-[0.14em] text-[#1d1418] uppercase">
+                Gift
+              </p>
+            )}
             <address className="mt-4 text-sm leading-6 not-italic text-ink-soft">
               <span className="text-ink">{data.shippingAddress.fullName}</span>
               <br />
@@ -195,6 +200,12 @@ function OrderDetails({ data }) {
               <br />
               {data.shippingAddress.phone}
             </address>
+            {data.isGift && data.giftNote && (
+              <p className="mt-4 border-t border-line pt-4 text-sm leading-6 text-ink">
+                <span className="block text-[11px] tracking-[0.16em] text-ink-soft uppercase">Gift note</span>
+                <span className="mt-1 block">{data.giftNote}</span>
+              </p>
+            )}
             {notes.length > 0 && (
               <ul className="mt-5 space-y-1.5 border-t border-line pt-4 text-sm text-ink-soft">
                 {notes.map((note) => (

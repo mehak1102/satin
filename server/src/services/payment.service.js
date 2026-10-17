@@ -65,9 +65,11 @@ export async function quoteOrder(rawItems) {
   return { lines, subtotal, discount, shipping, shippingName: method?.name ? String(method.name) : "", tax, total };
 }
 
-export async function createRazorpayCheckout({ user, contactEmail, shippingAddress, items }) {
+export async function createRazorpayCheckout({ user, contactEmail, shippingAddress, items, isGift = false, giftNote = '' }) {
   if (!razorpay) throw new ApiError(503, 'Payments are not configured yet.');
 
+  const gift = Boolean(isGift);
+  const note = gift ? String(giftNote || '').trim().slice(0, 200) : '';
   const quote = await quoteOrder(items);
   const orderNumber = `SAT-${Date.now().toString(36).toUpperCase()}`;
   const order = await Order.create({
@@ -76,6 +78,8 @@ export async function createRazorpayCheckout({ user, contactEmail, shippingAddre
     items: quote.lines,
     shippingAddress,
     contactEmail,
+    isGift: gift,
+    giftNote: note,
     subtotal: quote.subtotal,
     discount: quote.discount,
     shipping: quote.shipping,

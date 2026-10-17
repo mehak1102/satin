@@ -85,10 +85,11 @@ const settingsPatch = z.object({
     .object({
       instagram: socialUrl,
       facebook: socialUrl,
+      linkedin: socialUrl,
       youtube: socialUrl,
     })
     .optional()
-    .default({ instagram: '', facebook: '', youtube: '' }),
+    .default({ instagram: '', facebook: '', linkedin: '', youtube: '' }),
 });
 
 export const overview = asyncHandler(async (_req, res) => {

@@ -74,6 +74,8 @@ export function CheckoutPage() {
   const [paying, setPaying] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [saveAddress, setSaveAddress] = useState(false);
+  const [isGift, setIsGift] = useState(false);
+  const [giftNote, setGiftNote] = useState("");
   const filled = useRef(false);
 
   const items = cart.items.map((item) => ({ productId: item.id, quantity: item.quantity }));
@@ -146,7 +148,7 @@ export function CheckoutPage() {
     }
     setPaying(true);
     try {
-      if (saveAddress && !selectedId) {
+      if (saveAddress && !selectedId && !isGift) {
         const { data } = await api.post("/account/addresses", {
           fullName: values.fullName,
           phone: values.phone,
@@ -167,8 +169,11 @@ export function CheckoutPage() {
       const loaded = await loadRazorpay();
       if (!loaded) throw new Error("Razorpay could not be loaded.");
 
+      const note = isGift ? giftNote.trim().slice(0, 200) : "";
       const { data } = await api.post("/payments/create-order", {
         contactEmail: values.email,
+        isGift,
+        giftNote: note,
         shippingAddress: {
           fullName: values.fullName,
           phone: values.phone,
@@ -192,9 +197,9 @@ export function CheckoutPage() {
           name: "Satin",
           description: checkout.orderNumber,
           prefill: {
-            name: values.fullName,
+            name: isGift ? auth.user.name || values.fullName : values.fullName,
             email: values.email,
-            contact: values.phone,
+            contact: isGift ? auth.user.phone || values.phone : values.phone,
           },
           theme: { color: "#14384c" },
           handler: async (response) => {
@@ -265,7 +270,7 @@ export function CheckoutPage() {
   return (
     <Shell>
       <PageHero eyebrow="Checkout" title="Delivery" size="md">
-        <p>Where should the order go? Payment opens in a secure Razorpay window.</p>
+        <p>{isGift ? "Send Satin to someone you care about. Payment opens in a secure Razorpay window." : "Where should the order go? Payment opens in a secure Razorpay window."}</p>
       </PageHero>
 
       <div className="mt-12 grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -281,7 +286,54 @@ export function CheckoutPage() {
             </Link>
           </div>
         )}
-        {auth.user && savedAddresses.length > 0 && (
+        <label className="mb-8 flex cursor-pointer items-start gap-3 rounded-[22px] border border-line bg-white/60 px-4 py-3.5 text-sm text-ink">
+          <input
+            type="checkbox"
+            checked={isGift}
+            onChange={(event) => {
+              const next = event.target.checked;
+              setIsGift(next);
+              if (next) {
+                setSaveAddress(false);
+                setSelectedId("");
+                const email = form.getValues("email") || auth.user?.email || "";
+                form.reset({
+                  fullName: "",
+                  email,
+                  phone: "",
+                  line1: "",
+                  line2: "",
+                  city: "",
+                  state: "",
+                  postalCode: "",
+                });
+              } else {
+                setGiftNote("");
+              }
+            }}
+            className="mt-0.5 h-4 w-4 rounded border-line accent-ink"
+          />
+          <span>
+            <span className="font-medium">This is a gift</span>
+            <span className="mt-1 block text-ink-soft">We’ll ship to their address. Order updates stay with you.</span>
+          </span>
+        </label>
+        {isGift && (
+          <div className="mb-8">
+            <Field label="Gift note (optional)">
+              <textarea
+                value={giftNote}
+                onChange={(event) => setGiftNote(event.target.value.slice(0, 200))}
+                rows={3}
+                maxLength={200}
+                placeholder="A short note for them (optional)"
+                className={inputClass}
+              />
+            </Field>
+            <p className="mt-1.5 text-xs text-ink-soft">{giftNote.length}/200</p>
+          </div>
+        )}
+        {auth.user && savedAddresses.length > 0 && !isGift && (
           <div className="mb-8">
             <h2 className="font-display text-2xl font-medium">Saved addresses</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -324,22 +376,24 @@ export function CheckoutPage() {
             </div>
           </div>
         )}
-        <h2 className="font-display text-2xl font-medium">{auth.user && savedAddresses.length > 0 ? "Deliver to" : "Delivery details"}</h2>
+        <h2 className="font-display text-2xl font-medium">
+          {isGift ? "Ship to them" : auth.user && savedAddresses.length > 0 ? "Deliver to" : "Delivery details"}
+        </h2>
         <form id="checkout-form" onSubmit={form.handleSubmit(onSubmit)} className="mt-5 grid gap-5 sm:grid-cols-2" noValidate>
-          <Field label="Full name" error={form.formState.errors.fullName?.message}>
+          <Field label={isGift ? "Their name" : "Full name"} error={form.formState.errors.fullName?.message}>
             <input autoComplete="name" className={inputClass} {...form.register("fullName")} />
           </Field>
-          <Field label="Email" error={form.formState.errors.email?.message}>
+          <Field label={isGift ? "Your email for order updates" : "Email"} error={form.formState.errors.email?.message}>
             <input type="email" autoComplete="email" className={inputClass} {...form.register("email")} />
           </Field>
-          <Field label="Phone" error={form.formState.errors.phone?.message}>
+          <Field label={isGift ? "Their phone" : "Phone"} error={form.formState.errors.phone?.message}>
             <input type="tel" autoComplete="tel" className={inputClass} {...form.register("phone")} />
           </Field>
           <Field label="PIN code" error={form.formState.errors.postalCode?.message}>
             <input autoComplete="postal-code" className={inputClass} {...form.register("postalCode")} />
           </Field>
           <div className="sm:col-span-2">
-            <Field label="Address" error={form.formState.errors.line1?.message}>
+            <Field label={isGift ? "Their address" : "Address"} error={form.formState.errors.line1?.message}>
               <input autoComplete="address-line1" className={inputClass} {...form.register("line1")} />
             </Field>
           </div>
@@ -354,7 +408,7 @@ export function CheckoutPage() {
           <Field label="State" error={form.formState.errors.state?.message}>
             <input autoComplete="address-level1" className={inputClass} {...form.register("state")} />
           </Field>
-          {auth.user && !selectedId && (
+          {auth.user && !selectedId && !isGift && (
             <label className="flex cursor-pointer items-center gap-3 text-sm text-ink sm:col-span-2">
               <input
                 type="checkbox"

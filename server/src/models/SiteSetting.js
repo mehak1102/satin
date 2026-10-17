@@ -28,8 +28,9 @@ const siteSettingSchema = new mongoose.Schema(
       },
     },
     social: {
-      instagram: { type: String, default: '' },
-      facebook: { type: String, default: '' },
+      instagram: { type: String, default: 'https://www.instagram.com/parivarseva/' },
+      facebook: { type: String, default: 'https://www.facebook.com/parivarseva' },
+      linkedin: { type: String, default: 'https://www.linkedin.com/company/parivarsevasanstha' },
       youtube: { type: String, default: '' },
     },
     taxRate: { type: Number, default: 0 },

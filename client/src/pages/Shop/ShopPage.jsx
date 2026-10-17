@@ -158,7 +158,12 @@ export function ShopPage() {
             </motion.span>
           )}
         </div>
-        <p className="mt-5 max-w-md text-base leading-7 text-ink-soft">The size and the count are printed on the pack.</p>
+        <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">
+          The size and the count are printed on the pack.
+        </p>
+        <p className="mt-2 max-w-lg font-display text-xl leading-snug text-ink sm:text-2xl">
+          Delivery at your doorstep.
+        </p>
 
         <div className="mt-10 rounded-[28px] border border-line bg-white/70 p-3 shadow-[0_24px_44px_-38px_rgba(20,56,76,0.6)] backdrop-blur sm:p-4">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">

@@ -9,7 +9,7 @@ import { LeafShadows } from "../../components/decor/LeafShadows";
 import { Field, apiErrorMessage, inputClass } from "../../components/form/Field";
 import { Notice } from "../../components/layout/FormShell";
 import { PageHero } from "../../components/layout/PageHero";
-import { SocialLinks } from "../../components/layout/SocialLinks";
+import { SocialIconLinks } from "../../components/layout/SocialLinks";
 import { panelClass, primaryButton } from "../../components/layout/StatePanel";
 import { NewsletterForm } from "../../components/newsletter/NewsletterForm";
 import { useSettings } from "../../hooks/useSettings";
@@ -160,7 +160,7 @@ export function ContactPage() {
                 </ul>
               )}
               {settings.isSuccess && !support && <p className="mt-4 text-sm text-ink-soft">Customer care details have not been saved yet.</p>}
-              {settings.isSuccess && <SocialLinks social={settings.data?.social} className="mt-5 space-y-2" />}
+              {settings.isSuccess && <SocialIconLinks social={settings.data?.social} className="mt-5" />}
             </motion.section>
 
             <motion.section {...rise(0.45)} className={`${panelClass} p-6 sm:p-8`} aria-labelledby="contact-faq">

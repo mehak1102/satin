@@ -35,6 +35,8 @@ const orderSchema = new mongoose.Schema(
     items: { type: [orderItemSchema], required: true },
     shippingAddress: { type: shippingAddressSchema, required: true },
     contactEmail: { type: String, required: true },
+    isGift: { type: Boolean, default: false },
+    giftNote: { type: String, default: '', maxlength: 200 },
     subtotal: { type: Number, required: true, min: 0 },
     discount: { type: Number, default: 0, min: 0 },
     shipping: { type: Number, default: 0, min: 0 },

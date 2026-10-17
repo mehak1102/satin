@@ -21,6 +21,8 @@ const router = Router();
 
 const checkoutSchema = z.object({
   contactEmail: z.string().trim().email(),
+  isGift: z.boolean().optional().default(false),
+  giftNote: z.string().trim().max(200).optional().default(''),
   shippingAddress: z.object({
     fullName: z.string().trim().min(2).max(80),
     phone: z.string().trim().min(8).max(20),
@@ -76,6 +78,8 @@ router.post(
       contactEmail: data.contactEmail,
       shippingAddress: data.shippingAddress,
       items: data.items,
+      isGift: data.isGift,
+      giftNote: data.giftNote,
     });
     res.status(201).json({ success: true, checkout });
   }),

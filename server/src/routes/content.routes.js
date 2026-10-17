@@ -12,7 +12,12 @@ const fallback = {
     website: 'https://www.parivarseva.org',
     address: 'Parivar Seva Sanstha, C-374, Defence Colony, New Delhi 110024',
   },
-  social: { instagram: '', facebook: '', youtube: '' },
+  social: {
+    instagram: 'https://www.instagram.com/parivarseva/',
+    facebook: 'https://www.facebook.com/parivarseva',
+    linkedin: 'https://www.linkedin.com/company/parivarsevasanstha',
+    youtube: '',
+  },
   shipping: { summary: '', methods: [] },
   returns: '',
   privacy: '',

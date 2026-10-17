@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
+import { Logo } from "../common/Logo";
 import { FlowerRain } from "../decor/FlowerRain";
 import { RouteMeta } from "../seo/PageMeta";
 import { CartDrawer } from "../cart/CartDrawer";
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
+import { WhatsAppHelp } from "./WhatsAppHelp";
 
 export function SiteLayout() {
   const { pathname } = useLocation();
@@ -36,6 +38,10 @@ export function SiteLayout() {
         </Suspense>
       </main>
       <Footer />
+      <WhatsAppHelp />
+      <div aria-hidden="true" className="pointer-events-none fixed right-4 bottom-4 z-40 sm:right-6 sm:bottom-6">
+        <Logo className="h-8 opacity-70 drop-shadow-[0_0_10px_rgba(255,253,251,0.9)] sm:h-9" />
+      </div>
     </div>
   );
 }
