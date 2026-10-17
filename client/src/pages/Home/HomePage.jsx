@@ -299,18 +299,18 @@ export function HomePage() {
         </div>
       </Reveal>
 
-      <Reveal reduce={reduce} className="bg-ink text-paper">
+      <Reveal reduce={reduce} className="bg-[#FFF3A8] text-ink">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
-            <p className="text-[11px] tracking-[0.28em] uppercase text-paper/60">On the packaging</p>
+            <p className="text-[11px] tracking-[0.28em] uppercase text-ink/55">On the packaging</p>
             <Title as="h2" className="mt-3 font-display text-4xl leading-tight sm:text-5xl">Printed on the packs</Title>
-            <p className="mt-6 max-w-sm text-sm leading-7 text-paper/60">
+            <p className="mt-6 max-w-sm text-sm leading-7 text-ink/65">
               Satin sells menstrual pads. Choose by the size and count printed on the pack. This shop does not publish medical advice.
             </p>
           </div>
           <ul className="grid gap-x-10 gap-y-0 sm:grid-cols-2">
             {printedLines.map((line) => (
-              <li key={line} className="border-t border-white/15 py-5 text-sm leading-7 text-paper/85">
+              <li key={line} className="border-t border-ink/15 py-5 text-sm leading-7 text-ink/80">
                 {line}
               </li>
             ))}

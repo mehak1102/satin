@@ -33,10 +33,7 @@ const reasons = [
 
 export function WhyChooseSatin({ reduce }) {
   return (
-    <section
-      aria-labelledby="why-choose-satin-title"
-      className="bg-[#f3e4dc] text-ink"
-    >
+    <section aria-labelledby="why-choose-satin-title" className="bg-[#FFD0DC] text-ink">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-24">
         <div>
           <p className="text-[11px] tracking-[0.28em] uppercase text-ink-soft">The satin way</p>
