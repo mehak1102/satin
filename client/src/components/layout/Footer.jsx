@@ -13,6 +13,8 @@ const columns = [
       ["Regular", "/shop?category=Regular"],
       ["XL", "/shop?category=XL"],
       ["Ultra", "/shop?category=Ultra"],
+      ["Condoms", "/shop?category=Condoms"],
+      ["Contraception", "/shop?category=Contraception"],
     ],
   },
   {

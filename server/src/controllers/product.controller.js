@@ -27,16 +27,27 @@ function publicFilter(query) {
 function sortFromQuery(sort) {
   switch (sort) {
     case 'price-asc':
-      return { price: 1 };
+      return { price: 1, _id: 1 };
     case 'price-desc':
-      return { price: -1 };
+      return { price: -1, _id: 1 };
     case 'newest':
-      return { createdAt: -1 };
+      return { createdAt: -1, _id: 1 };
     case 'rating':
-      return { rating: -1, reviewCount: -1 };
+      return { rating: -1, reviewCount: -1, _id: 1 };
     default:
-      return { featured: -1, createdAt: -1 };
+      // Satin pad categories first, then condoms / contraception, then the rest.
+      return { satinFirst: 1, featured: -1, createdAt: -1, _id: 1 };
   }
+}
+
+function satinFirstStage() {
+  return {
+    $addFields: {
+      satinFirst: {
+        $cond: [{ $in: ['$category', ['Regular', 'XL', 'Ultra']] }, 0, 1],
+      },
+    },
+  };
 }
 
 function emptyTextSearch(error) {
@@ -48,16 +59,28 @@ export const listProducts = asyncHandler(async (req, res) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(48, Math.max(1, Number(req.query.limit) || 12));
   const filter = publicFilter(req.query);
+  const sort = sortFromQuery(req.query.sort);
+  const useSatinFirst = Object.prototype.hasOwnProperty.call(sort, 'satinFirst');
   try {
-    const [items, total] = await Promise.all([
-      Product.find(filter)
-        .select('-dataNotes')
-        .sort(sortFromQuery(req.query.sort))
-        .skip((page - 1) * limit)
-        .limit(limit),
+    const [pageResult, total] = await Promise.all([
+      useSatinFirst
+        ? Product.aggregate([
+            { $match: filter },
+            satinFirstStage(),
+            { $sort: sort },
+            { $skip: (page - 1) * limit },
+            { $limit: limit },
+            { $project: { dataNotes: 0, satinFirst: 0 } },
+          ])
+        : Product.find(filter)
+            .select('-dataNotes')
+            .sort(sort)
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean(),
       Product.countDocuments(filter),
     ]);
-    res.json({ success: true, items, total, page, pages: Math.ceil(total / limit) });
+    res.json({ success: true, items: pageResult, total, page, pages: Math.ceil(total / limit) });
   } catch (error) {
     if (!emptyTextSearch(error)) throw error;
     res.json({ success: true, items: [], total: 0, page, pages: 0 });

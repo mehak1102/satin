@@ -14,6 +14,7 @@ import { PadScanner } from "../../components/home/PadScanner";
 import { KnowMoreBasics } from "../../components/home/KnowMoreBasics";
 import { KnowCue } from "../../components/home/KnowCue";
 import { WhyChooseSatin } from "../../components/home/WhyChooseSatin";
+import { CareRange } from "../../components/home/CareRange";
 import { useWideScreen } from "../../hooks/useWideScreen";
 import { LoadError } from "../../components/product/CatalogStatus";
 import { printedLines, printedQuestions } from "../../content/packCopy";
@@ -319,6 +320,8 @@ export function HomePage() {
       </Reveal>
 
       <WhyChooseSatin reduce={reduce} />
+
+      <CareRange reduce={reduce} />
 
       <PadScanner packs={ordered} reduce={reduce} />
 
