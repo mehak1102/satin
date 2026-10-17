@@ -70,6 +70,28 @@ a.rounded-full:hover {
   animation: satin-scan-pulse 2.4s ease-in-out infinite;
 }
 
+.satin-flower-fall {
+  animation: satin-flower-fall var(--fall-duration, 2.8s) cubic-bezier(0.33, 0.1, 0.25, 1) var(--fall-delay, 0s) both;
+  will-change: transform, opacity;
+}
+
+@keyframes satin-flower-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(var(--fall-sway, 24px), 48vh, 0) rotate(calc(var(--fall-spin, 180deg) * 0.5));
+  }
+  100% {
+    transform: translate3d(calc(var(--fall-sway, 24px) * -0.4), 108vh, 0) rotate(var(--fall-spin, 180deg));
+    opacity: 0;
+  }
+}
+
 @keyframes satin-scan-pulse {
   50% {
     opacity: 0.35;
@@ -106,7 +128,8 @@ a.rounded-full:hover {
 
   .satin-marquee,
   .satin-orbit,
-  .satin-scan-pulse {
+  .satin-scan-pulse,
+  .satin-flower-fall {
     animation: none !important;
   }
 }

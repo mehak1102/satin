@@ -10,16 +10,24 @@ const pinTop = 128;
 const revealLine = 0.8;
 const ease = [0.33, 1, 0.68, 1];
 
+const flowers = {
+  bloom: "/flowers/bloom-1.png",
+  purple: "/flowers/bloom-2.png",
+  rose: "/flowers/rose-1.png",
+  topaz: "/flowers/topaz-2.png",
+  trio: "/flowers/topaz-trio.png",
+};
+
 const line = [
   { word: "Ruko" },
   { word: "mat,", tone: "bg-[#f6a6cf] text-[#1d1418]", tag: { label: "Satin Regular", to: "/product/satin-regular", tone: "bg-[#f6a6cf] text-[#1d1418]", side: "top" } },
-  { star: true },
+  { flower: "rose", size: "h-[1.1em] w-[1.1em]", tip: -8 },
   { doodle: "pen" },
   { word: "Jee" },
   { word: "Bhar" },
   { word: "Ke" },
-  { doodle: "dots" },
   { word: "Jee lo.", tone: "bg-[#d9aef3] text-[#1d1418]", tag: { label: "Ultra Box", to: "/product/satin-ultra-box", tone: "bg-[#d9aef3] text-[#1d1418]", side: "bottom" } },
+  { flower: "bloom", size: "h-[1.05em] w-[1.05em]", tip: 6 },
   { word: "Stree Clinic", tone: "bg-plum text-ivory", tag: { label: "Shop all packs", to: "/shop", tone: "bg-ivory text-plum", side: "top" } },
 ];
 
@@ -142,11 +150,13 @@ export function MottoStrip({ reduce }) {
           Stree Clinic
         </motion.div>
 
+        <FlowerField progress={progress} reduce={reduce} pin={pin} />
+
         <Reveal.Provider value={{ pin, reduce, trackX, at: size.stage * revealLine }}>
           <motion.div
             ref={trackRef}
             style={{ x: trackX }}
-            className={`relative flex items-center font-poster leading-[0.85] uppercase ${
+            className={`relative z-10 flex items-center font-poster leading-[0.85] uppercase ${
               pin
                 ? "w-max shrink-0 gap-[3vw] pr-[14vw] pl-[6vw] text-[clamp(4.5rem,10vw,9.5rem)] whitespace-nowrap"
                 : "flex-wrap gap-x-4 gap-y-14 px-5 text-[clamp(3.5rem,16vw,6rem)]"
@@ -156,8 +166,8 @@ export function MottoStrip({ reduce }) {
             {line.map((item, index) =>
               item.doodle ? (
                 pin && <Doodle key={index} kind={item.doodle} />
-              ) : item.star ? (
-                <Star key={index} spin={spin} />
+              ) : item.flower ? (
+                <LineFlower key={index} kind={item.flower} size={item.size} tip={item.tip} spin={spin} />
               ) : item.tone ? (
                 <Block key={index} item={item} pin={pin} />
               ) : (
@@ -169,6 +179,64 @@ export function MottoStrip({ reduce }) {
         {pin && <Pointer progress={progress} />}
       </div>
     </section>
+  );
+}
+
+function FlowerField({ progress, reduce, pin }) {
+  const drift = useTransform(progress, [0, 1], [0, pin ? 28 : 0]);
+  const floatY = useTransform(progress, [0, 0.5, 1], [0, -18, 8]);
+  const sway = useTransform(progress, [0, 1], [-6, 10]);
+
+  const pieces = [
+    { src: flowers.rose, className: "right-[4%] bottom-[10%] w-[min(14vw,140px)] opacity-90", x: drift, y: floatY, rotate: sway },
+  ];
+
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+      {pieces.map((piece, index) => (
+        <motion.img
+          key={piece.src + index}
+          src={piece.src}
+          alt=""
+          className={`absolute object-contain drop-shadow-[0_12px_28px_rgba(40,20,40,0.12)] ${piece.className}`}
+          style={reduce ? undefined : { x: piece.x, y: piece.y, rotate: piece.rotate }}
+          initial={reduce ? false : { opacity: 0, scale: 0.86 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, ease, delay: 0.08 * index }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function LineFlower({ kind, size, tip = 0, spin }) {
+  const ref = useRef(null);
+  const shown = useShown(ref);
+  const src = flowers[kind] || flowers.bloom;
+
+  return (
+    <motion.span
+      ref={ref}
+      aria-hidden="true"
+      initial={false}
+      animate={shown ? "show" : "hidden"}
+      className={`relative inline-block shrink-0 ${size}`}
+    >
+      <motion.img
+        src={src}
+        alt=""
+        variants={starIn}
+        style={{ rotate: spin }}
+        className="h-full w-full origin-center object-contain drop-shadow-[0_8px_18px_rgba(40,20,40,0.14)]"
+      />
+      <motion.span
+        aria-hidden="true"
+        className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-[#f6a6cf]"
+        style={{ rotate: tip }}
+        variants={pop(0.12)}
+      />
+    </motion.span>
   );
 }
 
@@ -196,19 +264,6 @@ function Word({ text }) {
   return (
     <motion.span ref={ref} initial={false} animate={shown ? "show" : "hidden"} variants={plain} className="inline-block text-[#bdb4ad]">
       {text}
-    </motion.span>
-  );
-}
-
-function Star({ spin }) {
-  const ref = useRef(null);
-  const shown = useShown(ref);
-
-  return (
-    <motion.span ref={ref} aria-hidden="true" initial={false} animate={shown ? "show" : "hidden"} className="inline-block">
-      <motion.span variants={starIn} style={{ rotate: spin }} className="inline-block text-rose">
-        ✱
-      </motion.span>
     </motion.span>
   );
 }

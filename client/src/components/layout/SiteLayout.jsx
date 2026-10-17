@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
+import { FlowerRain } from "../decor/FlowerRain";
 import { RouteMeta } from "../seo/PageMeta";
 import { CartDrawer } from "../cart/CartDrawer";
 import { Footer } from "./Footer";
@@ -13,6 +14,7 @@ export function SiteLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <RouteMeta />
+      <FlowerRain />
       <a
         href="#content"
         className="fixed top-3 left-3 z-[60] -translate-y-24 rounded-full bg-ink px-4 py-2 text-sm text-paper focus:translate-y-0"
