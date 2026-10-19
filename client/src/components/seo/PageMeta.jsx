@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 const pages = {
   "/": ["Satin — Soft absorbent for bold moves", "Satin sanitary pads. Soft absorbent for bold moves. Shop Regular, XL, and Ultra packs."],
   "/shop": ["Shop — Satin", "Shop Satin Regular, XL, and Ultra packs."],
+  "/other-products": ["Other products — Satin", "Condoms and contraception from Parivar Seva, separate from Satin packs."],
   "/about": ["Our story — Satin", "Satin is a trademark of Parivar Seva Sanstha."],
   "/blogs": ["Notes — Satin", "Journal notes from Satin."],
   "/faq": ["FAQ — Satin", "Questions about Satin packs and customer care."],

@@ -60,14 +60,14 @@ export function CareRange({ reduce }) {
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
-              to="/shop?category=Condoms"
+              to="/other-products?category=Condoms"
               className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-ivory px-5 py-2.5 text-sm text-ink hover:border-ink"
             >
               Shop condoms
               <ArrowRight size={15} />
             </Link>
             <Link
-              to="/shop?category=Contraception"
+              to="/other-products?category=Contraception"
               className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-ivory"
             >
               Shop contraception

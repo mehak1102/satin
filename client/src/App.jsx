@@ -42,6 +42,7 @@ const OrderPage = page(() => import("./pages/Order/OrderPage"), "OrderPage");
 const PolicyPage = page(() => import("./pages/Policy/PolicyPage"), "PolicyPage");
 const WishlistPage = page(() => import("./pages/Wishlist/WishlistPage"), "WishlistPage");
 const TrackerPage = page(() => import("./pages/Tracker/TrackerPage"), "TrackerPage");
+const OtherProductsPage = page(() => import("./pages/Shop/OtherProductsPage"), "OtherProductsPage");
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ export default function App() {
           <Route element={<SiteLayout />}>
             <Route index element={<HomePage />} />
             <Route path="shop" element={<ShopPage />} />
+            <Route path="other-products" element={<OtherProductsPage />} />
             <Route path="product/:slug" element={<ProductPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="checkout" element={<CheckoutPage />} />

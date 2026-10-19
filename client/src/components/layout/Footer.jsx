@@ -13,8 +13,9 @@ const columns = [
       ["Regular", "/shop?category=Regular"],
       ["XL", "/shop?category=XL"],
       ["Ultra", "/shop?category=Ultra"],
-      ["Condoms", "/shop?category=Condoms"],
-      ["Contraception", "/shop?category=Contraception"],
+      ["Other products", "/other-products"],
+      ["Condoms", "/other-products?category=Condoms"],
+      ["Contraception", "/other-products?category=Contraception"],
     ],
   },
   {

@@ -6,7 +6,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router();
 
-const staticPaths = ['/', '/shop', '/about', '/blogs', '/faq', '/contact', '/tracker', '/leave-notes', '/shipping', '/returns', '/privacy', '/terms'];
+const staticPaths = ['/', '/shop', '/other-products', '/about', '/blogs', '/faq', '/contact', '/tracker', '/leave-notes', '/shipping', '/returns', '/privacy', '/terms'];
 
 function siteOrigin() {
   return String(env.clientUrl || 'http://localhost:5173').replace(/\/$/, '');

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { LoadError, PackGridSkeleton } from "../../components/product/CatalogStatus";
 import { ProductCard } from "../../components/product/ProductCard";
 import { api, formatPrice } from "../../services/api";
@@ -17,8 +17,12 @@ const sorts = [
   ["rating", "Rating"],
 ];
 
+const satinCategories = ["Regular", "XL", "Ultra"];
+const otherCategories = ["Condoms", "Contraception"];
+
 export function ShopPage() {
   const reduce = useReducedMotion();
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const urlQuery = params.get("q") || "";
   const urlMin = params.get("minPrice") || "";
@@ -76,10 +80,20 @@ export function ShopPage() {
     return () => clearTimeout(timer);
   }, [minPrice, maxPrice, setParams]);
 
+  const categoryParam = params.get("category") || "";
+  useEffect(() => {
+    if (!otherCategories.includes(categoryParam)) return;
+    const next = new URLSearchParams(params);
+    navigate(`/other-products?${next.toString()}`, { replace: true });
+  }, [categoryParam, navigate, params]);
+
   const query = useQuery({
-    queryKey: ["products", params.toString()],
+    queryKey: ["products", "satin", params.toString()],
+    enabled: !otherCategories.includes(categoryParam),
     queryFn: async () => {
-      const { data } = await api.get("/products", { params: Object.fromEntries(params) });
+      const { data } = await api.get("/products", {
+        params: { ...Object.fromEntries(params), line: "satin" },
+      });
       return data;
     },
   });
@@ -88,6 +102,8 @@ export function ShopPage() {
     queryKey: ["product-filters"],
     queryFn: async () => (await api.get("/products/meta/filters")).data,
   });
+
+  const shopCategories = (filters.data?.categories || []).filter((name) => satinCategories.includes(name));
 
   function setFilter(key, value) {
     const next = new URLSearchParams(params);
@@ -164,6 +180,16 @@ export function ShopPage() {
         <p className="mt-2 max-w-lg font-display text-xl leading-snug text-ink sm:text-2xl">
           Delivery at your doorstep.
         </p>
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link
+            to="/other-products"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-white/80 px-5 py-2.5 text-sm text-ink transition hover:border-ink"
+          >
+            Other products
+            <ArrowRight size={15} aria-hidden="true" />
+          </Link>
+          <p className="text-sm text-ink-soft">Condoms &amp; contraception — separate from Satin packs.</p>
+        </div>
 
         <div className="mt-10 rounded-[28px] border border-line bg-white/70 p-3 shadow-[0_24px_44px_-38px_rgba(20,56,76,0.6)] backdrop-blur sm:p-4">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -227,7 +253,7 @@ export function ShopPage() {
             </div>
           </div>
           <div role="group" aria-label="Category" className="-mx-3 mt-3 flex gap-1.5 overflow-x-auto border-t border-line px-3 pt-3 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:gap-2 sm:px-0">
-            {["", ...(filters.data?.categories || [])].map((value) => {
+            {["", ...shopCategories].map((value) => {
               const active = category === value;
               return (
                 <button

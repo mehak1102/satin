@@ -5,9 +5,22 @@ import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { parseBody } from '../validators/index.js';
 
+const satinCategories = ['Regular', 'XL', 'Ultra'];
+const otherCategories = ['Condoms', 'Contraception'];
+
 function publicFilter(query) {
   const filter = { active: true };
-  if (query.category) filter.category = query.category;
+  const line = String(query.line || '').toLowerCase();
+  const category = query.category ? String(query.category) : '';
+
+  if (line === 'satin') {
+    filter.category = category && satinCategories.includes(category) ? category : { $in: satinCategories };
+  } else if (line === 'other') {
+    filter.category = category && otherCategories.includes(category) ? category : { $in: otherCategories };
+  } else if (category) {
+    filter.category = category;
+  }
+
   if (query.size) filter.size = query.size;
   if (query.featured === 'true') filter.featured = true;
   if (query.minPrice || query.maxPrice) {
