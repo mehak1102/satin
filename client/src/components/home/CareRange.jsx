@@ -29,7 +29,13 @@ export function CareRange({ reduce }) {
   const care = useQuery({
     queryKey: ["products", "care-timeline"],
     queryFn: async () => {
-      const { data } = await api.get("/products", { params: { line: "other", limit: 48 } });
+      const groups = await Promise.all(
+        ["Condoms", "Contraception", "Nutrition"].map(async (category) => {
+          const { data } = await api.get("/products", { params: { category, limit: 48 } });
+          return data.items || [];
+        }),
+      );
+      const data = { items: groups.flat() };
       const bySlug = new Map((data.items || []).map((item) => [item.slug, item]));
       return timelineSlugs.map((slug) => bySlug.get(slug)).filter(Boolean);
     },

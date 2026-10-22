@@ -10,10 +10,17 @@ const condomCategories = ['Condoms'];
 const medicineCategories = ['Contraception', 'Nutrition'];
 const otherCategories = [...condomCategories, ...medicineCategories];
 
+function queryText(value) {
+  if (Array.isArray(value)) return String(value[0] || '');
+  if (typeof value === 'string') return value;
+  if (value && typeof value.get === 'function') return String(value.get('line') || value.get('category') || '');
+  return String(value || '');
+}
+
 function publicFilter(query) {
   const filter = { active: true };
-  const line = String(query.line || '').toLowerCase();
-  const category = query.category ? String(query.category) : '';
+  const line = queryText(query.line || (typeof query.get === 'function' ? query.get('line') : '')).toLowerCase();
+  const category = queryText(query.category || (typeof query.get === 'function' ? query.get('category') : ''));
 
   if (line === 'satin') {
     filter.category = category && satinCategories.includes(category) ? category : { $in: satinCategories };
@@ -23,6 +30,8 @@ function publicFilter(query) {
     filter.category = category && medicineCategories.includes(category) ? category : { $in: medicineCategories };
   } else if (line === 'other') {
     filter.category = category && otherCategories.includes(category) ? category : { $in: otherCategories };
+  } else if (category.includes(',')) {
+    filter.category = { $in: category.split(',').map((item) => item.trim()).filter(Boolean) };
   } else if (category) {
     filter.category = category;
   }

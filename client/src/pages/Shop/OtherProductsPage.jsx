@@ -19,6 +19,7 @@ const sorts = [
 
 const condomLine = {
   line: "condoms",
+  categories: ["Condoms"],
   eyebrow: "Condoms",
   title: "Condoms",
   intro: "Stallion, Rider, Sawan, and Night Bliss — prices as printed on the pack.",
@@ -30,6 +31,7 @@ const condomLine = {
 
 const medicineLine = {
   line: "medicine",
+  categories: ["Contraception", "Nutrition"],
   eyebrow: "Medicine",
   title: "Medicine",
   intro: "Contraception and iron tablets from Parivar Seva. Pack facts only — ask a clinician before use.",
@@ -184,10 +186,18 @@ function LineShop({ config }) {
   const query = useQuery({
     queryKey: ["products", config.line, params.toString()],
     queryFn: async () => {
-      const { data } = await api.get("/products", {
-        params: { ...Object.fromEntries(params), line: config.line, limit: 48 },
-      });
-      return data;
+      const selected = params.get("category") || "";
+      const categories = selected && config.categories.includes(selected) ? [selected] : config.categories;
+      const pages = await Promise.all(
+        categories.map(async (category) => {
+          const { data } = await api.get("/products", {
+            params: { ...Object.fromEntries(params), category, limit: 48 },
+          });
+          return data;
+        }),
+      );
+      const items = pages.flatMap((page) => page.items || []);
+      return { items, total: items.length, page: 1, pages: 1 };
     },
   });
 

@@ -92,10 +92,18 @@ export function ShopPage() {
     queryKey: ["products", "satin", params.toString()],
     enabled: !otherCategories.includes(categoryParam),
     queryFn: async () => {
-      const { data } = await api.get("/products", {
-        params: { ...Object.fromEntries(params), line: "satin" },
-      });
-      return data;
+      const selected = params.get("category") || "";
+      const categories = selected && satinCategories.includes(selected) ? [selected] : satinCategories;
+      const pages = await Promise.all(
+        categories.map(async (category) => {
+          const { data } = await api.get("/products", {
+            params: { ...Object.fromEntries(params), category },
+          });
+          return data;
+        }),
+      );
+      const items = pages.flatMap((page) => page.items || []);
+      return { items, total: items.length, page: 1, pages: 1, success: true };
     },
   });
 
