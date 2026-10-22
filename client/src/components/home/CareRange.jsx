@@ -13,6 +13,8 @@ const timelineSlugs = [
   "night-bliss-3",
   "ecroz-gold-cycle",
   "nopreg-injection-150",
+  "iron-plus-tablets",
+  "ifa-shakti-tablets",
 ];
 
 export function CareRange({ reduce }) {
@@ -27,7 +29,7 @@ export function CareRange({ reduce }) {
   const care = useQuery({
     queryKey: ["products", "care-timeline"],
     queryFn: async () => {
-      const { data } = await api.get("/products", { params: { limit: 40 } });
+      const { data } = await api.get("/products", { params: { line: "other", limit: 48 } });
       const bySlug = new Map((data.items || []).map((item) => [item.slug, item]));
       return timelineSlugs.map((slug) => bySlug.get(slug)).filter(Boolean);
     },
@@ -60,17 +62,17 @@ export function CareRange({ reduce }) {
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
-              to="/other-products?category=Condoms"
+              to="/condoms"
               className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-ivory px-5 py-2.5 text-sm text-ink hover:border-ink"
             >
               Shop condoms
               <ArrowRight size={15} />
             </Link>
             <Link
-              to="/other-products?category=Contraception"
+              to="/medicine"
               className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-ivory"
             >
-              Shop contraception
+              Shop medicine
               <ArrowRight size={15} />
             </Link>
           </div>

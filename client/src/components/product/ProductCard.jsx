@@ -78,7 +78,7 @@ export function ProductCard({ product, index = 0 }) {
           </Title>
           <p className="mt-1 text-sm text-ink-soft">
             {product.size}
-            {product.packSize ? ` · ${product.packSize} pads` : ""}
+            {["Regular", "XL", "Ultra"].includes(product.category) && product.packSize ? ` · ${product.packSize} pads` : ""}
           </p>
         </div>
         <Price

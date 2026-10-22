@@ -191,6 +191,47 @@ const products = [
     dataNotes: 'Copied from Nopreg pack artwork and price tag. Stock is not printed. Not medical advice.',
     images: [{ publicId: '', url: media('nopreg.png'), alt: 'Nopreg medroxyprogesterone acetate injection pack' }],
   },
+  {
+    name: 'Iron Plus · Ferrous Ascorbate & Folic Acid',
+    slug: 'iron-plus-tablets',
+    sku: 'IRON-PLUS-10X10',
+    category: 'Nutrition',
+    size: '10 × 10 tablets',
+    packSize: 100,
+    price: 0,
+    featured: false,
+    shortDescription: 'Ferrous ascorbate and folic acid tablets IP. 10 × 10 tablets. Pack facts only.',
+    description:
+      'Iron Plus. Ferrous Ascorbate & Folic Acid Tablets IP. Pack marked 10 × 10 tablets. Pack composition lines include Ferrous Ascorbate IP (equivalent to elemental iron) and Folic Acid IP 1.5 mg. Marketed by Parivar Seva Sanstha. Marked for therapeutic use. No MRP is printed on this pack image. This shop lists pack facts only — ask a clinician before use.',
+    features: ['Ferrous ascorbate & folic acid tablets IP', '10 × 10 tablets', 'Marketed by Parivar Seva Sanstha'],
+    specifications: [
+      { label: 'Pack', value: '10 × 10 tablets' },
+      { label: 'Actives (pack)', value: 'Ferrous ascorbate IP; folic acid IP 1.5 mg' },
+      { label: 'Marked by', value: 'Parivar Seva Sanstha' },
+    ],
+    dataNotes: 'Copied from Iron Plus pack artwork. MRP is not printed. Not medical advice.',
+    images: [{ publicId: '', url: media('iron-plus.png'), alt: 'Iron Plus ferrous ascorbate and folic acid tablets pack' }],
+  },
+  {
+    name: 'IFA-Shakti · Iron and Folic Acid Tablets',
+    slug: 'ifa-shakti-tablets',
+    sku: 'IFA-SHAKTI-10X10',
+    category: 'Nutrition',
+    size: '10 × 10 tablets',
+    packSize: 100,
+    price: 0,
+    featured: false,
+    shortDescription: 'Iron and folic acid tablets IP. Iron 60 mg and folic acid 0.5 mg. Pack facts only.',
+    description:
+      'IFA-Shakti. Iron and Folic Acid Tablets IP. Pack marked 10 × 10 tablets. Pack lines include Iron 60 mg and Folic Acid 0.5 mg. Composition lines include dried ferrous sulphate IP 200 mg, equivalent to elemental iron 60 mg, and folic acid 0.5 mg. No MRP is printed on this pack image. This shop lists pack facts only — ask a clinician before use.',
+    features: ['Iron and folic acid tablets IP', 'Iron 60 mg and folic acid 0.5 mg (pack)', '10 × 10 tablets'],
+    specifications: [
+      { label: 'Pack', value: '10 × 10 tablets' },
+      { label: 'Actives (pack)', value: 'Elemental iron 60 mg; folic acid 0.5 mg' },
+    ],
+    dataNotes: 'Copied from IFA-Shakti pack artwork. MRP is not printed. Not medical advice.',
+    images: [{ publicId: '', url: media('ifa-shakti.png'), alt: 'IFA-Shakti iron and folic acid tablets pack' }],
+  },
 ];
 
 async function seed() {

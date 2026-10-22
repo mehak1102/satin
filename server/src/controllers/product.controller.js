@@ -6,7 +6,9 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { parseBody } from '../validators/index.js';
 
 const satinCategories = ['Regular', 'XL', 'Ultra'];
-const otherCategories = ['Condoms', 'Contraception'];
+const condomCategories = ['Condoms'];
+const medicineCategories = ['Contraception', 'Nutrition'];
+const otherCategories = [...condomCategories, ...medicineCategories];
 
 function publicFilter(query) {
   const filter = { active: true };
@@ -15,6 +17,10 @@ function publicFilter(query) {
 
   if (line === 'satin') {
     filter.category = category && satinCategories.includes(category) ? category : { $in: satinCategories };
+  } else if (line === 'condoms') {
+    filter.category = category && condomCategories.includes(category) ? category : { $in: condomCategories };
+  } else if (line === 'medicine') {
+    filter.category = category && medicineCategories.includes(category) ? category : { $in: medicineCategories };
   } else if (line === 'other') {
     filter.category = category && otherCategories.includes(category) ? category : { $in: otherCategories };
   } else if (category) {

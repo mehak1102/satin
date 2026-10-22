@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ChevronDown, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { LoadError, PackGridSkeleton } from "../../components/product/CatalogStatus";
 import { ProductCard } from "../../components/product/ProductCard";
 import { api, formatPrice } from "../../services/api";
@@ -17,9 +17,106 @@ const sorts = [
   ["rating", "Rating"],
 ];
 
-const otherCategories = ["Condoms", "Contraception"];
+const condomLine = {
+  line: "condoms",
+  eyebrow: "Condoms",
+  title: "Condoms",
+  intro: "Stallion, Rider, Sawan, and Night Bliss — prices as printed on the pack.",
+  chip: "All condoms",
+  filters: [],
+  sticker: "bg-[#d9e8f4]",
+  empty: "bg-[#d9e8f4]",
+};
+
+const medicineLine = {
+  line: "medicine",
+  eyebrow: "Medicine",
+  title: "Medicine",
+  intro: "Contraception and iron tablets from Parivar Seva. Pack facts only — ask a clinician before use.",
+  chip: "All medicine",
+  filters: ["Contraception", "Nutrition"],
+  sticker: "bg-[#f8d6e3]",
+  empty: "bg-[#f8d6e3]",
+};
+
+export function CondomsPage() {
+  return <LineShop config={condomLine} />;
+}
+
+export function MedicinePage() {
+  return <LineShop config={medicineLine} />;
+}
 
 export function OtherProductsPage() {
+  const [params] = useSearchParams();
+  const category = params.get("category") || "";
+  if (category === "Condoms") return <Navigate to="/condoms" replace />;
+  if (category === "Contraception" || category === "Nutrition") {
+    return <Navigate to={`/medicine?category=${encodeURIComponent(category)}`} replace />;
+  }
+
+  const reduce = useReducedMotion();
+  return (
+    <div className="relative isolate overflow-hidden">
+      <LeafShadows />
+      <section className="mx-auto max-w-7xl px-5 pt-12 pb-24 text-ink sm:px-8">
+        <Link to="/shop" className="inline-flex items-center gap-2 text-sm text-ink-soft transition hover:text-ink">
+          <ArrowLeft size={15} aria-hidden="true" />
+          Back to Satin packs
+        </Link>
+        <p className="mt-6 text-[11px] tracking-[0.28em] uppercase text-ink-soft">Beyond Satin</p>
+        <motion.h1
+          className="mt-3 font-display text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.92] font-medium tracking-[-0.02em]"
+          initial={reduce ? false : "hidden"}
+          animate="show"
+          variants={dropLine}
+        >
+          <DropText text="Choose a line" reduce={reduce} />
+        </motion.h1>
+        <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">
+          Condoms and medicine sit apart from Satin pads.
+        </p>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
+          <LineCard
+            to="/condoms"
+            eyebrow="Condoms"
+            title="Condoms"
+            body="Stallion, Rider, Sawan, Night Bliss."
+            tone="bg-[#d9e8f4]"
+          />
+          <LineCard
+            to="/medicine"
+            eyebrow="Medicine"
+            title="Medicine"
+            body="Contraception and iron tablets. Ask a clinician before use."
+            tone="bg-[#f8d6e3]"
+          />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function LineCard({ to, eyebrow, title, body, tone }) {
+  return (
+    <Link
+      to={to}
+      className={`group flex min-h-[16rem] flex-col justify-between rounded-[28px] p-8 transition hover:-translate-y-0.5 ${tone}`}
+    >
+      <p className="text-[11px] tracking-[0.28em] uppercase text-ink-soft">{eyebrow}</p>
+      <div>
+        <h2 className="font-display text-4xl font-medium">{title}</h2>
+        <p className="mt-3 max-w-sm text-sm leading-6 text-ink-soft">{body}</p>
+        <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium">
+          Shop this line
+          <ArrowRight size={15} aria-hidden="true" className="transition group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function LineShop({ config }) {
   const reduce = useReducedMotion();
   const [params, setParams] = useSearchParams();
   const urlQuery = params.get("q") || "";
@@ -85,10 +182,10 @@ export function OtherProductsPage() {
   }, [minPrice, maxPrice, setParams]);
 
   const query = useQuery({
-    queryKey: ["products", "other", params.toString()],
+    queryKey: ["products", config.line, params.toString()],
     queryFn: async () => {
       const { data } = await api.get("/products", {
-        params: { ...Object.fromEntries(params), line: "other", limit: 48 },
+        params: { ...Object.fromEntries(params), line: config.line, limit: 48 },
       });
       return data;
     },
@@ -142,7 +239,7 @@ export function OtherProductsPage() {
           <ArrowLeft size={15} aria-hidden="true" />
           Back to Satin packs
         </Link>
-        <p className="mt-6 text-[11px] tracking-[0.28em] uppercase text-ink-soft">Other products</p>
+        <p className="mt-6 text-[11px] tracking-[0.28em] uppercase text-ink-soft">{config.eyebrow}</p>
         <div className="relative mt-3 inline-block">
           <motion.h1
             className="font-display text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.92] font-medium tracking-[-0.02em]"
@@ -150,12 +247,12 @@ export function OtherProductsPage() {
             animate="show"
             variants={dropLine}
           >
-            <DropText text="Care beyond Satin" reduce={reduce} />
+            <DropText text={config.title} reduce={reduce} />
           </motion.h1>
           {typeof total === "number" && (
             <motion.span
               aria-hidden="true"
-              className="absolute -top-2 -right-4 bg-[#d9e8f4] px-3 py-1.5 font-sans text-[clamp(0.65rem,1vw,0.85rem)] font-semibold tracking-[0.14em] uppercase shadow-[0_8px_16px_-8px_rgba(0,0,0,0.35)] sm:-right-12"
+              className={`absolute -top-2 -right-4 ${config.sticker} px-3 py-1.5 font-sans text-[clamp(0.65rem,1vw,0.85rem)] font-semibold tracking-[0.14em] uppercase shadow-[0_8px_16px_-8px_rgba(0,0,0,0.35)] sm:-right-12`}
               initial={reduce ? false : { scale: 0, rotate: -30 }}
               animate={{ scale: 1, rotate: 6 }}
               transition={{ type: "spring", stiffness: 240, damping: 13, delay: 0.85 }}
@@ -164,9 +261,18 @@ export function OtherProductsPage() {
             </motion.span>
           )}
         </div>
-        <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">
-          Condoms and contraception from Parivar Seva — prices as printed. Ask a clinician for medical products.
-        </p>
+        <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">{config.intro}</p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          {config.line === "condoms" ? (
+            <Link to="/medicine" className="inline-flex items-center gap-2 text-sm text-ink-soft underline-offset-4 hover:text-ink hover:underline">
+              Medicine instead
+            </Link>
+          ) : (
+            <Link to="/condoms" className="inline-flex items-center gap-2 text-sm text-ink-soft underline-offset-4 hover:text-ink hover:underline">
+              Condoms instead
+            </Link>
+          )}
+        </div>
 
         <div className="mt-10 rounded-[28px] border border-line bg-white/70 p-3 shadow-[0_24px_44px_-38px_rgba(20,56,76,0.6)] backdrop-blur sm:p-4">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -219,29 +325,31 @@ export function OtherProductsPage() {
               />
             </div>
           </div>
-          <div role="group" aria-label="Category" className="-mx-3 mt-3 flex gap-1.5 overflow-x-auto border-t border-line px-3 pt-3 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:gap-2 sm:px-0">
-            {["", ...otherCategories].map((value) => {
-              const active = category === value;
-              return (
-                <button
-                  key={value || "all"}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => setFilter("category", value)}
-                  className={`relative shrink-0 rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors sm:px-5 ${active ? "text-paper" : "text-ink hover:bg-ink/5"}`}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="other-category"
-                      className="absolute inset-0 rounded-full bg-ink"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                  <span className="relative">{value || "All other"}</span>
-                </button>
-              );
-            })}
-          </div>
+          {config.filters.length > 0 && (
+            <div role="group" aria-label="Category" className="-mx-3 mt-3 flex gap-1.5 overflow-x-auto border-t border-line px-3 pt-3 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:gap-2 sm:px-0">
+              {["", ...config.filters].map((value) => {
+                const active = category === value;
+                return (
+                  <button
+                    key={value || "all"}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setFilter("category", value)}
+                    className={`relative shrink-0 rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors sm:px-5 ${active ? "text-paper" : "text-ink hover:bg-ink/5"}`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId={`${config.line}-category`}
+                        className="absolute inset-0 rounded-full bg-ink"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    <span className="relative">{value || config.chip}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         <div className="mt-6 flex min-h-8 flex-wrap items-center gap-2">
@@ -272,7 +380,7 @@ export function OtherProductsPage() {
         {query.isLoading && <PackGridSkeleton count={6} />}
         {query.isError && <LoadError onRetry={() => query.refetch()}>These products could not load.</LoadError>}
         {query.isSuccess && items.length === 0 && (
-          <div className="mt-10 rounded-[28px] bg-[#d9e8f4] px-8 py-14 text-center">
+          <div className={`mt-10 rounded-[28px] ${config.empty} px-8 py-14 text-center`}>
             <p className="font-display text-3xl font-medium">No products match these filters.</p>
             <button type="button" onClick={clearAll} className="mt-6 rounded-full bg-ink px-6 py-3 text-sm text-paper">
               Clear filters

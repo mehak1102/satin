@@ -43,6 +43,8 @@ const PolicyPage = page(() => import("./pages/Policy/PolicyPage"), "PolicyPage")
 const WishlistPage = page(() => import("./pages/Wishlist/WishlistPage"), "WishlistPage");
 const TrackerPage = page(() => import("./pages/Tracker/TrackerPage"), "TrackerPage");
 const OtherProductsPage = page(() => import("./pages/Shop/OtherProductsPage"), "OtherProductsPage");
+const CondomsPage = page(() => import("./pages/Shop/OtherProductsPage"), "CondomsPage");
+const MedicinePage = page(() => import("./pages/Shop/OtherProductsPage"), "MedicinePage");
 
 const queryClient = new QueryClient();
 
@@ -57,6 +59,8 @@ export default function App() {
             <Route index element={<HomePage />} />
             <Route path="shop" element={<ShopPage />} />
             <Route path="other-products" element={<OtherProductsPage />} />
+            <Route path="condoms" element={<CondomsPage />} />
+            <Route path="medicine" element={<MedicinePage />} />
             <Route path="product/:slug" element={<ProductPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="checkout" element={<CheckoutPage />} />

@@ -18,7 +18,7 @@ const sorts = [
 ];
 
 const satinCategories = ["Regular", "XL", "Ultra"];
-const otherCategories = ["Condoms", "Contraception"];
+const otherCategories = ["Condoms", "Contraception", "Nutrition"];
 
 export function ShopPage() {
   const reduce = useReducedMotion();
@@ -84,7 +84,8 @@ export function ShopPage() {
   useEffect(() => {
     if (!otherCategories.includes(categoryParam)) return;
     const next = new URLSearchParams(params);
-    navigate(`/other-products?${next.toString()}`, { replace: true });
+    const path = categoryParam === "Condoms" ? "/condoms" : "/medicine";
+    navigate(`${path}?${next.toString()}`, { replace: true });
   }, [categoryParam, navigate, params]);
 
   const query = useQuery({
@@ -182,13 +183,19 @@ export function ShopPage() {
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
-            to="/other-products"
+            to="/condoms"
             className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-white/80 px-5 py-2.5 text-sm text-ink transition hover:border-ink"
           >
-            Other products
+            Condoms
             <ArrowRight size={15} aria-hidden="true" />
           </Link>
-          <p className="text-sm text-ink-soft">Condoms &amp; contraception — separate from Satin packs.</p>
+          <Link
+            to="/medicine"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-paper transition hover:bg-ink/90"
+          >
+            Medicine
+            <ArrowRight size={15} aria-hidden="true" />
+          </Link>
         </div>
 
         <div className="mt-10 rounded-[28px] border border-line bg-white/70 p-3 shadow-[0_24px_44px_-38px_rgba(20,56,76,0.6)] backdrop-blur sm:p-4">

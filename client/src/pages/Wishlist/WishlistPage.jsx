@@ -195,7 +195,12 @@ function SavedCard({ product, index, reduce, onAdd }) {
   const status = availability(product);
   const image = product.images?.[0]?.url;
   const href = `/product/${product.slug}`;
-  const details = [product.size, product.packSize ? `${product.packSize} pads` : ""].filter(Boolean).join(" · ");
+  const details = [
+    product.size,
+    ["Regular", "XL", "Ultra"].includes(product.category) && product.packSize ? `${product.packSize} pads` : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <motion.li
