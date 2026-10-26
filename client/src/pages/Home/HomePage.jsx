@@ -392,6 +392,34 @@ export function HomePage() {
           </Link>
         </div>
       </Reveal>
+
+      <Reveal reduce={reduce} className="bg-ivory text-ink">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:py-20">
+          <p className="text-[11px] tracking-[0.28em] uppercase text-ink-soft">Beyond pads</p>
+          <Title as="h2" className="mt-3 max-w-xl font-display text-4xl leading-tight sm:text-5xl">
+            Condoms and medicine, in their own shops.
+          </Title>
+          <p className="mt-4 max-w-lg text-sm leading-7 text-ink-soft">
+            Separate from Satin packs. Prices as printed. Ask a clinician before medical products.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/condoms"
+              className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-white px-5 py-2.5 text-sm text-ink transition hover:border-ink"
+            >
+              Condoms
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+            <Link
+              to="/medicine"
+              className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-paper transition hover:bg-ink/90"
+            >
+              Medicine
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </Reveal>
     </div>
   );
 }
