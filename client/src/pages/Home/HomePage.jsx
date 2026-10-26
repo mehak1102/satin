@@ -38,9 +38,9 @@ const bandModels = {
 
 // Placeholder sizes must match the canvas frames in UltraBoxView so the page does not jump.
 const modelFrame = {
-  lead: "mx-auto h-[min(78vh,700px)] w-full",
-  band: "mx-auto h-[min(58vh,520px)] w-full",
-  "satin-ultra-pack-of-2": "mx-auto h-[min(46vh,420px)] w-full lg:h-[min(58vh,540px)]",
+  lead: "mx-auto h-[min(42svh,380px)] w-full desk:h-[min(78vh,700px)]",
+  band: "mx-auto h-[min(38svh,340px)] w-full desk:h-[min(58vh,520px)]",
+  "satin-ultra-pack-of-2": "mx-auto h-[min(36svh,320px)] w-full desk:h-[min(58vh,540px)]",
 };
 
 const backdrops = {
@@ -460,11 +460,14 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
       style={pin ? { height: `calc(100svh - ${stage.top}px + ${stage.spin}svh)` } : undefined}
     >
       <div
-        className={`bg-cover bg-center ${tone.halo || carry || xl ? `isolate ${pin ? "" : "relative overflow-hidden"}` : ""} ${pin ? `sticky flex items-center overflow-hidden ${stage.stage}` : carry ? "lg:min-h-[calc(100svh-8rem)]" : ""}`}
+        className={`bg-cover bg-center ${tone.halo || carry || xl ? `isolate ${pin ? "" : "relative overflow-hidden"}` : ""} ${pin ? `sticky flex items-center overflow-hidden ${stage.stage}` : carry ? "desk:min-h-[calc(100svh-8rem)]" : ""}`}
         style={
           backdrop
             ? {
-                backgroundImage: backdrop.paint || (backdrop.shade ? `${backdrop.shade}, url(${backdrop.image})` : `url(${backdrop.image})`),
+                backgroundImage:
+                  !wide && backdrop.image
+                    ? `linear-gradient(180deg, rgba(10,48,70,0.7) 0%, rgba(10,48,70,0.22) 48%, rgba(10,48,70,0.08) 100%), url(${backdrop.image})`
+                    : backdrop.paint || (backdrop.shade ? `${backdrop.shade}, url(${backdrop.image})` : `url(${backdrop.image})`),
                 ...(backdrop.position ? { backgroundPosition: backdrop.position } : {}),
               }
             : undefined
@@ -477,21 +480,19 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
             carry && pin
               ? "absolute inset-0"
               : carry
-                ? "relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 py-14"
-                : `mx-auto grid w-full max-w-6xl items-center gap-8 px-5 lg:grid-cols-2 lg:gap-12 ${
-                    lead ? "py-12 lg:min-h-[calc(100svh-4rem)] lg:py-10" : pin ? "py-4" : "py-16 lg:py-24"
+                ? "relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 py-10 sm:py-14"
+                : `mx-auto grid w-full max-w-6xl items-center gap-8 px-5 desk:grid-cols-2 desk:gap-12 ${
+                    lead ? "py-10 desk:min-h-[calc(100svh-4rem)] desk:py-10" : pin ? "py-4" : "py-10 sm:py-16 desk:py-24"
                   }`
           }
         >
           <motion.div
             className={
               carry && pin
-                ? "absolute top-1/2 right-[12vw] z-10 w-[min(26rem,32vw)] -translate-y-1/2"
+                ? "absolute top-1/2 right-[clamp(1.25rem,12vw,8rem)] z-10 w-[min(26rem,36vw)] -translate-y-1/2"
                 : carry
-                  ? "order-2 mx-auto w-full max-w-md"
-                  : `${xl ? "relative z-10" : ""} ${flip ? "lg:order-2" : ""} ${lead ? "xl:max-[1399px]:translate-x-16 min-[1400px]:translate-x-32" : ""} ${
-                    product.slug === "satin-regular" ? "lg:-translate-x-4 xl:-translate-x-[clamp(40px,calc(12vw_-_150px),200px)]" : ""
-                  }`
+                  ? "order-2 mx-auto w-full max-w-lg px-1 desk:max-w-md"
+                  : `${xl ? "relative z-10" : ""} ${flip ? "desk:order-2" : ""}`
             }
             initial={reduce ? false : "hidden"}
             animate={lead && !reduce ? "show" : undefined}
@@ -506,7 +507,11 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
             <Heading
               variants={dropLine}
               className={`mt-4 max-w-xl font-display font-medium ${
-                lines ? "text-5xl leading-[0.92] tracking-[-0.025em] sm:text-6xl lg:text-[4.5rem]" : lead ? "text-5xl leading-[0.98] sm:text-7xl" : "text-4xl leading-[1.05] sm:text-6xl"
+                lines
+                  ? "text-[clamp(2.15rem,7vw,4.5rem)] leading-[0.92] tracking-[-0.025em]"
+                  : lead
+                    ? "text-[clamp(2.35rem,8vw,4.5rem)] leading-[0.98]"
+                    : "text-[clamp(2.1rem,6.5vw,3.75rem)] leading-[1.05]"
               }`}
             >
               {lines ? (
@@ -568,9 +573,9 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
               </motion.div>
             )}
             {features && (
-              <motion.ul variants={rise} className="mt-6 flex divide-x divide-current/15">
+              <motion.ul variants={rise} className="mt-6 flex max-w-md divide-x divide-current/15">
                 {features.map(({ icon: Icon, label }) => (
-                  <li key={label.join(" ")} className="flex w-28 flex-col items-center px-3 text-center text-xs leading-5 first:pl-0">
+                  <li key={label.join(" ")} className="flex min-w-0 flex-1 flex-col items-center px-2 text-center text-[11px] leading-5 first:pl-0 sm:px-3 sm:text-xs">
                     <span className={`mb-2 grid h-11 w-11 place-items-center rounded-full ${tone.badge || "border border-current/35 bg-white/10"}`}>
                       <Icon size={18} strokeWidth={1.6} />
                     </span>
@@ -585,7 +590,7 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
             )}
             <motion.p variants={rise} className={`mt-6 text-sm ${soft}`}>
               {product.packSize ? `${product.packSize} pads` : product.size}
-              <span className={`mt-1 block font-display opacity-100 ${carry ? "text-5xl text-white" : "text-4xl"}`}>{formatPrice(product.price)}</span>
+              <span className={`mt-1 block font-display opacity-100 ${carry ? "text-[clamp(2rem,6vw,3rem)] text-white" : "text-[clamp(1.85rem,5vw,2.5rem)]"}`}>{formatPrice(product.price)}</span>
             </motion.p>
             <motion.div variants={rise} className="mt-8 flex flex-wrap gap-3">
               <Link to={`/product/${product.slug}`} className={`inline-flex items-center gap-2 rounded-full text-sm ${carry ? "px-6 py-3" : "px-5 py-2.5"} ${tone.solid}`}>
@@ -604,10 +609,10 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
               aria-label={product.name}
               className={
                 carry && pin
-                  ? "group absolute top-[56%] left-[22%] z-10 isolate block w-[min(32rem,36vw)] origin-[50%_90%] -translate-y-1/2 scale-[1.22]"
+                  ? "group absolute top-[56%] left-[clamp(4%,10vw,22%)] z-10 isolate block w-[min(32rem,38vw)] origin-[50%_90%] -translate-y-1/2 scale-[1.12]"
                   : carry
                     ? "group relative isolate order-1 mx-auto block w-full max-w-md"
-                    : `group block ${xl ? "relative isolate lg:origin-[46%_75%] lg:scale-[1.2]" : ""} ${flip ? "lg:order-1" : ""} ${lead ? "xl:-translate-x-20" : ""} ${product.slug === "satin-regular" ? "relative isolate lg:-mx-5 lg:translate-x-20 lg:translate-y-[56px] lg:scale-[1.12] xl:-mx-10 xl:translate-x-[clamp(0px,calc(19.7vw_-_260px),370px)]" : ""}`
+                    : `group block min-w-0 ${xl ? "relative isolate desk:origin-[46%_75%] desk:scale-[1.12]" : ""} ${flip ? "desk:order-1" : ""} ${product.slug === "satin-regular" ? "relative isolate" : ""}`
               }
             >
               {tone.halo && <RegularHalo reduce={reduce} />}

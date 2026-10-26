@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant desk (@media (min-width: 1024px) and (orientation: landscape));
+
 @theme {
   --font-display: "Fraunces", "Times New Roman", serif;
   --font-sans: "Outfit", "Segoe UI", sans-serif;

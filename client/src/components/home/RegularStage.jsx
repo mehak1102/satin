@@ -75,7 +75,7 @@ export function RegularStage({ word, reduce, sectionRef }) {
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(14,2,20,0.5),rgba(14,2,20,0))]" />
       {word && (
         <motion.span
-          className="absolute right-0 bottom-[-0.12em] hidden font-poster text-[clamp(9rem,19vw,22rem)] leading-none tracking-[0.02em] whitespace-nowrap text-transparent uppercase lg:block"
+          className="absolute right-0 bottom-[-0.12em] hidden max-w-full overflow-hidden font-poster text-[clamp(5rem,12vw,16rem)] leading-none tracking-[0.02em] whitespace-nowrap text-transparent uppercase desk:block"
           style={{ x: reduce ? 0 : wordX, WebkitTextStroke: "1px rgba(255,255,255,0.26)" }}
         >
           {word} · {word}
@@ -87,7 +87,7 @@ export function RegularStage({ word, reduce, sectionRef }) {
 
 export function RegularHalo({ reduce }) {
   return (
-    <span aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
+    <span aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden desk:block">
       <span className="absolute top-1/2 left-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2">
         <motion.span
           className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,150,205,0.32)_0%,rgba(255,150,205,0.09)_45%,rgba(255,150,205,0)_68%)]"

@@ -10,8 +10,8 @@ const carryUrl = "/models/satin-pack-of-2.glb?v=1";
 const ultraEightUrl = "/models/satin-ultra-8.glb?v=1";
 const bandOffset = ["start end", "end start"];
 const heroOffset = ["start start", "end start"];
-const bandSize = "mx-auto h-[min(58vh,520px)] w-full";
-const heroSize = "mx-auto h-[min(78vh,700px)] w-full";
+const bandSize = "mx-auto h-[min(38svh,340px)] w-full desk:h-[min(58vh,520px)]";
+const heroSize = "mx-auto h-[min(42svh,380px)] w-full desk:h-[min(78vh,700px)]";
 
 // `front` is the Y rotation that faces the printed front at the camera. Band views reach it
 // mid-scroll (half a turn in), lead views show it on load. Pinned views start on the front and
@@ -60,7 +60,7 @@ export function CarryBoxView(props) {
       halfZ={0.025}
       front={-0.45}
       fit={1.28}
-      frameClass="mx-auto h-[min(46vh,420px)] w-full lg:h-[min(58vh,540px)]"
+      frameClass="mx-auto h-[min(36svh,320px)] w-full desk:h-[min(58vh,540px)]"
       shadow={{ radius: 0.038, scale: [1.15, 1, 0.58], color: "#020a18", opacity: 0.7, soft: true }}
     />
   );

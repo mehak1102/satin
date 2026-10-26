@@ -23,7 +23,7 @@ export function XlSilk({ reduce, sectionRef }) {
 
       <motion.svg
         viewBox="0 0 400 300"
-        className="absolute -top-[4%] -right-[2%] hidden h-[70%] w-[42%] mix-blend-multiply lg:block"
+        className="absolute -top-[4%] -right-[2%] hidden h-[70%] w-[42%] mix-blend-multiply desk:block"
         style={{ x: reduce ? 0 : shadowX, filter: "blur(7px)" }}
       >
         <motion.g
@@ -42,7 +42,7 @@ export function XlSilk({ reduce, sectionRef }) {
       </motion.svg>
 
       <motion.span
-        className="absolute -top-[20%] left-[48%] hidden h-[150%] w-[44%] rotate-[22deg] bg-[linear-gradient(90deg,rgba(255,252,249,0)_0%,rgba(255,252,249,0.5)_22%,rgba(255,252,249,0)_38%,rgba(255,252,249,0.38)_58%,rgba(255,252,249,0)_74%)] blur-2xl lg:block"
+        className="absolute -top-[20%] left-[48%] hidden h-[150%] w-[44%] rotate-[22deg] bg-[linear-gradient(90deg,rgba(255,252,249,0)_0%,rgba(255,252,249,0.5)_22%,rgba(255,252,249,0)_38%,rgba(255,252,249,0.38)_58%,rgba(255,252,249,0)_74%)] blur-2xl desk:block"
         animate={reduce ? undefined : { opacity: [0.65, 1, 0.65] }}
         transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
       />

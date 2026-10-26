@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { useWideScreen } from "../../hooks/useWideScreen";
 import { DropText, Title, dropLine } from "../motion/Title";
 
 const stories = [
@@ -72,6 +73,8 @@ const step = 70;
 
 export function PackStories({ reduce }) {
   const deckRef = useRef(null);
+  const wide = useWideScreen();
+  const stack = reduce || !wide;
   const { scrollYProgress } = useScroll({ target: deckRef, offset: ["start 64px", "end end"] });
 
   return (
@@ -80,7 +83,7 @@ export function PackStories({ reduce }) {
         <p className="text-[11px] tracking-[0.28em] uppercase text-ink-soft">On the packaging</p>
         <motion.h2
           id="pack-stories-title"
-          className="relative mx-auto mt-4 inline-block font-display text-5xl leading-[0.95] font-medium sm:text-7xl lg:text-8xl"
+          className="relative mx-auto mt-4 inline-block font-display text-[clamp(2.25rem,8vw,6rem)] leading-[0.95] font-medium"
           initial={reduce ? false : "hidden"}
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
@@ -93,10 +96,10 @@ export function PackStories({ reduce }) {
         </motion.h2>
       </div>
 
-      {reduce ? (
+      {stack ? (
         <div className="mx-auto grid max-w-7xl gap-6 px-5 pb-20">
           {stories.map((story) => (
-            <article key={story.key} className="grid h-[min(78svh,560px)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-[28px] lg:aspect-[7/3] lg:h-auto lg:grid-cols-[1fr_1.8fr] lg:grid-rows-1">
+            <article key={story.key} className="grid h-[min(70svh,520px)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-[28px] desk:aspect-[7/3] desk:h-auto desk:grid-cols-[1fr_1.8fr] desk:grid-rows-1">
               <StoryFace story={story} />
             </article>
           ))}
@@ -104,7 +107,7 @@ export function PackStories({ reduce }) {
       ) : (
         <div ref={deckRef} className="relative" style={{ height: `calc(100svh + ${(stories.length - 1) * step}svh)` }}>
           <div className="sticky top-16 flex h-[calc(100svh-4rem)] items-center overflow-hidden px-5 pb-12">
-            <div className="relative mx-auto h-[min(70svh,500px)] w-full max-w-7xl lg:h-auto lg:aspect-[7/3]">
+            <div className="relative mx-auto h-[min(70svh,500px)] w-full max-w-7xl desk:h-auto desk:aspect-[7/3]">
               {stories.map((story, index) => (
                 <DeckCard key={story.key} story={story} index={index} progress={scrollYProgress} />
               ))}
