@@ -23,6 +23,7 @@ const columns = [
     title: "Learn",
     links: [
       ["Our Story", "/about"],
+      ["Stree Clinic", "/stree-clinic"],
       ["Blogs", "/blogs"],
       ["Period Tracker", "/tracker"],
       ["FAQ", "/faq"],

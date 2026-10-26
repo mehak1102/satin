@@ -11,6 +11,7 @@ import { RegularHalo, RegularStage } from "../../components/home/RegularStage";
 import { CarryGlow, CarryNight } from "../../components/home/CarryStage";
 import { PackStories } from "../../components/home/PackStories";
 import { PadScanner } from "../../components/home/PadScanner";
+import { StreeClinicCue } from "../../components/home/StreeClinicCue";
 import { KnowMoreBasics } from "../../components/home/KnowMoreBasics";
 import { KnowCue } from "../../components/home/KnowCue";
 import { WhyChooseSatin } from "../../components/home/WhyChooseSatin";
@@ -327,6 +328,8 @@ export function HomePage() {
       <CareRange reduce={reduce} />
 
       <PadScanner packs={ordered} reduce={reduce} />
+
+      <StreeClinicCue />
 
       <KnowMoreBasics reduce={reduce} />
 

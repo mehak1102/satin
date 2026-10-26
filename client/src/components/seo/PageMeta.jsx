@@ -8,6 +8,7 @@ const pages = {
   "/condoms": ["Condoms — Satin", "Stallion, Rider, Sawan, and Night Bliss. Prices as printed."],
   "/medicine": ["Medicine — Satin", "Contraception and iron tablets from Parivar Seva. Pack facts only."],
   "/about": ["Our story — Satin", "Satin is a trademark of Parivar Seva Sanstha."],
+  "/stree-clinic": ["Stree Clinic — Satin", "If you want medical assistance, visit Stree Clinic. A unit of Parivar Seva Sanstha."],
   "/blogs": ["Notes — Satin", "Journal notes from Satin."],
   "/faq": ["FAQ — Satin", "Questions about Satin packs and customer care."],
   "/contact": ["Contact — Satin", "Write to Satin customer care."],

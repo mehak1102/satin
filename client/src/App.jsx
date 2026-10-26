@@ -45,6 +45,7 @@ const TrackerPage = page(() => import("./pages/Tracker/TrackerPage"), "TrackerPa
 const OtherProductsPage = page(() => import("./pages/Shop/OtherProductsPage"), "OtherProductsPage");
 const CondomsPage = page(() => import("./pages/Shop/OtherProductsPage"), "CondomsPage");
 const MedicinePage = page(() => import("./pages/Shop/OtherProductsPage"), "MedicinePage");
+const StreeClinicPage = page(() => import("./pages/Clinic/StreeClinicPage"), "StreeClinicPage");
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ export default function App() {
             <Route path="wishlist" element={<WishlistPage />} />
             <Route path="tracker" element={<TrackerPage />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="stree-clinic" element={<StreeClinicPage />} />
             <Route path="blogs" element={<BlogsPage />} />
             <Route path="blogs/:slug" element={<BlogPage />} />
             <Route path="faq" element={<FaqPage />} />
