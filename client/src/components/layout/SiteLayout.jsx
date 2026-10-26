@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import { Logo } from "../common/Logo";
+import { SiteLoader } from "../common/SiteLoader";
 import { FlowerRain } from "../decor/FlowerRain";
 import { RouteMeta } from "../seo/PageMeta";
 import { CartDrawer } from "../cart/CartDrawer";
@@ -26,7 +27,7 @@ export function SiteLayout() {
       <Navbar />
       <CartDrawer />
       <main id="content" tabIndex={-1} className="flex-1">
-        <Suspense fallback={<p className="mx-auto max-w-6xl px-5 py-16 text-ink-soft">Loading…</p>}>
+        <Suspense fallback={<SiteLoader compact />}>
           <motion.div
             key={pathname}
             initial={reduce ? false : { opacity: 0, y: 8 }}

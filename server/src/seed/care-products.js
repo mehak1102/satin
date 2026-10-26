@@ -3,7 +3,7 @@ import { connectDb } from '../config/db.js';
 import { env } from '../config/env.js';
 import { Product } from '../models/Product.js';
 
-const media = (file) => `${env.serverUrl.replace(/\/$/, '')}/media/products/${file}`;
+const media = (file) => `${env.serverUrl.replace(/\/$/, '')}/media/products/${file}?v=2`;
 
 const products = [
   {

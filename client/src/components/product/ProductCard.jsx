@@ -3,7 +3,7 @@ import { Eye, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { Price } from "./Price";
+import { Price, UnitCost } from "./Price";
 import { QuickView } from "./QuickView";
 import { SaveButton } from "./SaveButton";
 import { Title } from "../motion/Title";

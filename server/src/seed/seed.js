@@ -256,7 +256,7 @@ const packFiles = [
     ['xl-7-back.png', 'Satin XL pack back'],
   ]],
   ['satin-ultra-pack-of-2', [
-    ['ultra-carry-front.png', 'Satin Ultra carry pack'],
+    ['ultra-carry-front.png', 'Satin Ultra pack of 2'],
     ['ultra-carry-back.png', 'Satin Ultra carry pack back'],
   ]],
   ['satin-ultra-box', [
