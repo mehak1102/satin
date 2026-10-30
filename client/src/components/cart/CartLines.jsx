@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { QuantitySelector } from "../product/QuantitySelector";
 import { SaveButton } from "../product/SaveButton";
+import { UnitCost } from "../product/Price";
 import { formatPrice } from "../../services/api";
 
 export function CartLines({ items, setQuantity, removeItem }) {
@@ -21,6 +22,10 @@ export function CartLines({ items, setQuantity, removeItem }) {
               <SaveButton productId={item.id} />
             </div>
             <p className="mt-1 text-sm text-ink-soft">{formatPrice(item.price)}</p>
+            <UnitCost
+              product={item}
+              className="text-xs text-ink-soft"
+            />
             <div className="mt-3 flex items-center gap-3">
               <QuantitySelector
                 label={item.name}

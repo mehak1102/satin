@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { UnitCost } from "../product/Price";
 import { api, formatPrice } from "../../services/api";
 import { DropText, dropLine } from "../motion/Title";
 
@@ -144,6 +145,7 @@ export function CareRange({ reduce }) {
                       </p>
                     )}
                     <p className="mt-4 font-display text-3xl">{formatPrice(product.price)}</p>
+                    <UnitCost product={product} className="mt-1 text-sm text-ink-soft" />
                     <Link
                       to={`/product/${product.slug}`}
                       className={`mt-4 inline-flex items-center gap-1.5 text-sm text-ink underline decoration-ink/30 underline-offset-4 ${left ? "md:flex-row-reverse" : ""}`}

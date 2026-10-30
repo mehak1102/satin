@@ -27,7 +27,7 @@ const replaceBody = z.object({
     .max(20),
 });
 
-const productFields = 'name slug price images stock active';
+const productFields = 'name slug price images stock active category packSize size specifications';
 
 function clientItems(cart) {
   const items = [];
@@ -42,6 +42,10 @@ function clientItems(cart) {
       image: product.images?.[0]?.url || '',
       stock: product.stock,
       quantity: Math.min(entry.quantity, product.stock, 20),
+      packSize: product.packSize,
+      category: product.category,
+      size: product.size,
+      specifications: product.specifications,
     });
   }
   return items;

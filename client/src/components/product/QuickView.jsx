@@ -64,7 +64,12 @@ export function QuickView({ product, onClose }) {
           <Title as="h2" id="quick-view-title" className="mt-2 pr-16 font-display text-4xl text-ink">
             {product.name}
           </Title>
-          <Price price={product.price} compareAtPrice={product.compareAtPrice} className="mt-3 text-sm text-ink" />
+          <Price
+            price={product.price}
+            compareAtPrice={product.compareAtPrice}
+            product={product}
+            className="mt-3 text-sm text-ink"
+          />
           {product.shortDescription && <p className="mt-4 text-sm leading-6 text-ink-soft">{product.shortDescription}</p>}
           <p className="mt-4 text-sm">{inStock ? "In stock" : "Out of stock"}</p>
           <div className="mt-5 flex flex-wrap gap-3">

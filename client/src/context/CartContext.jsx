@@ -133,6 +133,10 @@ export function CartProvider({ children }) {
             image: product.image || "",
             stock: product.stock,
             quantity,
+            packSize: product.packSize ?? line.packSize,
+            category: product.category ?? line.category,
+            size: product.size ?? line.size,
+            specifications: product.specifications ?? line.specifications,
           });
         }
         const parts = [];
@@ -192,6 +196,10 @@ export function CartProvider({ children }) {
               image: product.images?.[0]?.url || "",
               stock: product.stock,
               quantity: Math.min(product.stock, 20, quantity),
+              packSize: product.packSize,
+              category: product.category,
+              size: product.size,
+              specifications: product.specifications,
             },
           ];
         });

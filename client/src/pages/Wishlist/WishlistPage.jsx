@@ -241,7 +241,13 @@ function SavedCard({ product, index, reduce, onAdd }) {
           <Link to={href} className="font-display text-2xl leading-tight font-medium hover:underline hover:underline-offset-4">
             {product.name}
           </Link>
-          <Price price={product.price} compareAtPrice={product.compareAtPrice} className="shrink-0 font-display text-xl font-medium" />
+          <Price
+            price={product.price}
+            compareAtPrice={product.compareAtPrice}
+            product={product}
+            unitClassName="text-right text-xs text-ink-soft"
+            className="shrink-0 font-display text-xl font-medium"
+          />
         </div>
         {details && <p className="mt-1.5 text-sm text-ink-soft">{details}</p>}
         <div className="mt-auto flex gap-2 pt-6">

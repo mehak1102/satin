@@ -54,7 +54,7 @@ const stories = [
   {
     key: "ultra-8",
     label: "Satin Ultra XL 8",
-    line: "Ruko mat.",
+    line: "Ruko mat, Jee Bhar Ke Jee Lo.",
     note: "The Ultra XL 8 box carries the full line: “Ruko mat, Jee Bhar Ke Jee Lo.”",
     image: "/stories/ultra-8-photo.jpg",
     focus: "center",
@@ -152,7 +152,7 @@ function StoryFace({ story }) {
     <>
       <div className={`flex flex-col justify-center px-7 py-6 sm:px-10 sm:py-10 lg:px-8 lg:py-6 xl:px-10 xl:py-10 ${story.tone}`} style={{ backgroundColor: story.light }}>
         <p className="text-[11px] tracking-[0.28em] uppercase opacity-70">{story.label}</p>
-        <Title as="h3" className="mt-3 font-display text-3xl leading-[1.02] font-medium text-balance sm:mt-4 sm:text-5xl lg:text-4xl xl:text-5xl">{story.line}</Title>
+        <Title as="h3" className={`mt-3 font-display leading-none font-medium sm:mt-4 ${story.line === "Ruko mat, Jee Bhar Ke Jee Lo." ? "text-[clamp(1.05rem,2.8vw,2.4rem)] whitespace-nowrap" : "text-3xl leading-[1.02] text-balance sm:text-5xl lg:text-4xl xl:text-5xl"}`}>{story.line}</Title>
         <p className="mt-3 max-w-sm text-sm leading-6 opacity-80 sm:mt-4">{story.note}</p>
         {story.href.startsWith("#") ? (
           <a href={story.href} className={pillClass}>

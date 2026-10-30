@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { LeafShadows } from "../../components/decor/LeafShadows";
 import { printedLines } from "../../content/packCopy";
 import { useSettings } from "../../hooks/useSettings";
+import { UnitCost } from "../../components/product/Price";
 import { api, formatPrice } from "../../services/api";
 import { DropText, dropLine, Title } from "../../components/motion/Title";
 
@@ -214,6 +215,7 @@ export function AboutPage() {
                   <p className="mt-1 text-sm text-ink-soft">
                     {product.packSize ? `${product.packSize} pads` : product.size} · {formatPrice(product.price)}
                   </p>
+                  <UnitCost product={product} className="mt-0.5 text-xs text-ink-soft" />
                 </Link>
               </motion.li>
             ))}

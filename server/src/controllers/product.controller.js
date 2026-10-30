@@ -128,7 +128,9 @@ const availabilityBody = z.object({
 export const checkAvailability = asyncHandler(async (req, res) => {
   const { ids } = parseBody(availabilityBody, req.body || {});
   const unique = [...new Set(ids.map(String))].filter((id) => mongoose.isValidObjectId(id)).slice(0, 20);
-  const products = await Product.find({ _id: { $in: unique }, active: true }).select('name slug price images stock');
+  const products = await Product.find({ _id: { $in: unique }, active: true }).select(
+    'name slug price images stock category packSize size specifications',
+  );
   res.json({
     success: true,
     items: products.map((product) => ({
@@ -138,6 +140,10 @@ export const checkAvailability = asyncHandler(async (req, res) => {
       price: product.price,
       image: product.images?.[0]?.url || '',
       stock: product.stock,
+      packSize: product.packSize,
+      category: product.category,
+      size: product.size,
+      specifications: product.specifications,
     })),
   });
 });

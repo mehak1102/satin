@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { LeafShadows } from "../../components/decor/LeafShadows";
 import { LoadError, PackDetailSkeleton } from "../../components/product/CatalogStatus";
-import { Price } from "../../components/product/Price";
+import { Price, UnitCost } from "../../components/product/Price";
 import { ProductCard } from "../../components/product/ProductCard";
 import { ProductFaq } from "../../components/product/ProductFaq";
 import { ProductGallery } from "../../components/product/ProductGallery";
@@ -136,8 +136,11 @@ export function ProductPage() {
                 <DropText text={product.name} reduce={reduce} />
               </motion.h1>
 
-              <motion.div variants={rise} className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-                <Price price={product.price} compareAtPrice={product.compareAtPrice} className="font-display text-4xl font-medium" />
+              <motion.div variants={rise} className="mt-6 flex flex-wrap items-start gap-x-5 gap-y-3">
+                <div>
+                  <Price price={product.price} compareAtPrice={product.compareAtPrice} className="font-display text-4xl font-medium" />
+                  <UnitCost product={product} className="mt-2 text-sm text-ink-soft" />
+                </div>
                 <p className="flex items-center gap-2 rounded-full bg-white/70 px-3.5 py-1.5 text-sm text-ink-soft">
                   <span aria-hidden="true" className={`h-2 w-2 rounded-full ${inStock ? (lowStock ? "bg-[#e0a43a]" : "bg-[#5aa469]") : "bg-ink-soft/50"}`} />
                   {inStock ? `${product.stock} in stock` : "Out of stock"}

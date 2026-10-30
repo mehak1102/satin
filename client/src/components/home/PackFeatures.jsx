@@ -105,7 +105,7 @@ const rows = [
 
 export function DropText({ text, reduce }) {
   return (
-    <span aria-label={text}>
+    <span aria-label={text} className="whitespace-nowrap">
       {text.split(" ").map((word, w) => (
         <Fragment key={`${word}-${w}`}>
           {w > 0 && " "}
@@ -479,19 +479,9 @@ export function PackFeatures({ reduce }) {
     <section aria-labelledby="pack-features-title" className="bg-[#f4efe7] text-[#1b1b18]">
       <div className="px-5 pt-16 pb-24 sm:px-10 lg:px-16 xl:px-24">
         <div className="relative pb-12">
-          <h2 id="pack-features-title" className="font-display text-[10.4vw] leading-[0.95] sm:text-[12vw] font-medium tracking-[-0.02em] whitespace-nowrap">
-            <DropText text="Jee Bhar Ke Jee Lo" reduce={reduce} />
+          <h2 id="pack-features-title" className="font-display text-[clamp(1.2rem,6.2vw,6.5rem)] leading-none font-medium tracking-[-0.02em] whitespace-nowrap">
+            <DropText text="Ruko mat, Jee Bhar Ke Jee Lo." reduce={reduce} />
           </h2>
-          <motion.span
-            aria-hidden="true"
-            className="absolute top-[56%] left-[34%] sm:top-[18%] sm:left-[14%] bg-[#fbe6a8] px-4 py-2 font-sans text-[clamp(0.75rem,1.3vw,1.15rem)] font-semibold tracking-[0.14em] text-[#1b1b18] uppercase shadow-[0_8px_16px_-8px_rgba(0,0,0,0.4)]"
-            initial={reduce ? false : { scale: 0, rotate: -40 }}
-            whileInView={{ scale: 1, rotate: -9 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ type: "spring", stiffness: 240, damping: 13, delay: 0.7 }}
-          >
-            Ruko mat
-          </motion.span>
         </div>
         <div>
           {rows.map((row) => (

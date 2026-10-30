@@ -23,6 +23,7 @@ import { printedLines, printedQuestions } from "../../content/packCopy";
 import { useCart } from "../../context/CartContext";
 import { api, formatPrice } from "../../services/api";
 import { DropText, Title, dropLine } from "../../components/motion/Title";
+import { UnitCost } from "../../components/product/Price";
 
 const bandOrder = ["satin-ultra-box", "satin-regular", "satin-ultra-pack-of-2", "satin-xl", "satin-ultra-xl-8"];
 
@@ -234,7 +235,7 @@ export function HomePage() {
         <section className="bg-teal text-ivory">
           <div className="mx-auto max-w-6xl px-5 py-24">
             <p className="text-[11px] tracking-[0.28em] uppercase opacity-70">Women&apos;s hygiene</p>
-            <Title as="h1" className="mt-4 max-w-xl font-display text-5xl leading-[0.95] font-medium sm:text-7xl">
+            <Title as="h1" className="mt-4 font-display text-[clamp(1.15rem,5vw,4.5rem)] leading-none font-medium whitespace-nowrap">
               Ruko mat, Jee Bhar Ke Jee Lo.
             </Title>
             <p className="mt-6 text-sm">Loading packs…</p>
@@ -449,6 +450,7 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
   const pin = !reduce && wide && Boolean(Model);
   const stage = lead ? heroPin : bandPin;
   const soft = carry ? "text-[#b8d4ee]" : "opacity-80";
+  const motto = line === "Ruko mat, Jee Bhar Ke Jee Lo.";
 
   function addToCart() {
     if (!inStock) return;
@@ -509,12 +511,14 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
             </motion.p>
             <Heading
               variants={dropLine}
-              className={`mt-4 max-w-xl font-display font-medium ${
-                lines
-                  ? "text-[clamp(2.15rem,7vw,4.5rem)] leading-[0.92] tracking-[-0.025em]"
-                  : lead
-                    ? "text-[clamp(2.35rem,8vw,4.5rem)] leading-[0.98]"
-                    : "text-[clamp(2.1rem,6.5vw,3.75rem)] leading-[1.05]"
+              className={`mt-4 font-display font-medium ${
+                motto
+                  ? "max-w-none text-[clamp(1.05rem,4.4vw,3.4rem)] leading-none whitespace-nowrap"
+                  : lines
+                    ? "max-w-xl text-[clamp(2.15rem,7vw,4.5rem)] leading-[0.92] tracking-[-0.025em]"
+                    : lead
+                      ? "max-w-xl text-[clamp(2.35rem,8vw,4.5rem)] leading-[0.98]"
+                      : "max-w-xl text-[clamp(2.1rem,6.5vw,3.75rem)] leading-[1.05]"
               }`}
             >
               {lines ? (
@@ -594,6 +598,7 @@ function PackBand({ product, index, lead = false, reduce, rise }) {
             <motion.p variants={rise} className={`mt-6 text-sm ${soft}`}>
               {product.packSize ? `${product.packSize} pads` : product.size}
               <span className={`mt-1 block font-display opacity-100 ${carry ? "text-[clamp(2rem,6vw,3rem)] text-white" : "text-[clamp(1.85rem,5vw,2.5rem)]"}`}>{formatPrice(product.price)}</span>
+              <UnitCost product={product} className={`mt-1 block text-[clamp(0.75rem,2.2vw,0.95rem)] ${carry ? "text-white/80" : "opacity-85"}`} />
             </motion.p>
             <motion.div variants={rise} className="mt-8 flex flex-wrap gap-3">
               <Link to={`/product/${product.slug}`} className={`inline-flex items-center gap-2 rounded-full text-sm ${carry ? "px-6 py-3" : "px-5 py-2.5"} ${tone.solid}`}>

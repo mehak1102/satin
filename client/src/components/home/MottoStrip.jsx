@@ -313,7 +313,7 @@ function Intro({ reduce, pin }) {
       >
         <Slab text="Stree Clinic." tilt={-2} tone="bg-[#d9aef3]" />
         <br />
-        <Slab text="Ruko mat, Jee Bhar Ke Jee Lo." tilt={1.5} tone="bg-[#f6a6cf]" className="mt-[0.08em] ml-[0.7em]" />
+        <Slab text="Ruko mat, Jee Bhar Ke Jee Lo." tilt={1.5} tone="bg-[#f6a6cf]" className="mt-[0.08em] ml-[0.7em] max-w-full text-[clamp(1.05rem,4.6vw,3.25rem)] whitespace-nowrap" />
       </motion.h2>
       <motion.p
         className="mt-6 ml-1 max-w-sm text-sm leading-6 text-ink-soft"
@@ -332,7 +332,7 @@ function Slab({ text, tilt, tone, className = "" }) {
   return (
     <motion.span aria-hidden="true" custom={tilt} variants={slab} className={`relative inline-block ${className}`}>
       <motion.span variants={fill} className={`absolute inset-0 origin-left ${tone}`} />
-      <motion.span variants={slabLetters} className="relative inline-block px-[0.18em] pt-[0.1em] text-[#1d1418]">
+      <motion.span variants={slabLetters} className="relative inline-block px-[0.18em] pt-[0.1em] text-[#1d1418] whitespace-nowrap">
         {Array.from(text).map((char, index) => (
           <motion.span key={index} variants={letter} className="inline-block">
             {char === " " ? "\u00a0" : char}

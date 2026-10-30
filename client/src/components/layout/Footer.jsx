@@ -80,12 +80,21 @@ export function Footer() {
         ))}
       </div>
       <div className="border-t border-white/10">
-        <div className="mx-auto max-w-6xl px-5 py-8">
-          <Title as="h2" className="text-3xl font-medium text-paper">Notes</Title>
-          <p className="mt-2 max-w-md text-sm text-paper/75">Leave an email for product notes.</p>
-          <div className="mt-4 max-w-sm">
-            <NewsletterForm tone="dark" />
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-8 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,22rem)]">
+          <div>
+            <Title as="h2" className="text-3xl font-medium text-paper">Notes</Title>
+            <p className="mt-2 max-w-md text-sm text-paper/75">Leave an email for product notes.</p>
+            <div className="mt-4 max-w-sm">
+              <NewsletterForm tone="dark" />
+            </div>
           </div>
+          <img
+            src="/home/why-satin-bouquet.png"
+            alt=""
+            width={821}
+            height={756}
+            className="mx-auto w-full max-w-sm object-contain lg:mx-0 lg:justify-self-end"
+          />
         </div>
       </div>
       <div className="border-t border-white/10 px-5 py-4 text-center text-xs text-paper/60">

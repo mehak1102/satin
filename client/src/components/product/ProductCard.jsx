@@ -81,11 +81,14 @@ export function ProductCard({ product, index = 0 }) {
             {["Regular", "XL", "Ultra"].includes(product.category) && product.packSize ? ` · ${product.packSize} pads` : ""}
           </p>
         </div>
-        <Price
-          price={product.price}
-          compareAtPrice={product.compareAtPrice}
-          className="shrink-0 rounded-full bg-white px-3.5 py-1.5 text-sm font-semibold text-ink shadow-[0_6px_14px_-10px_rgba(20,56,76,0.6)]"
-        />
+        <div className="shrink-0 text-right">
+          <Price
+            price={product.price}
+            compareAtPrice={product.compareAtPrice}
+            className="inline-block rounded-full bg-white px-3.5 py-1.5 text-sm font-semibold text-ink shadow-[0_6px_14px_-10px_rgba(20,56,76,0.6)]"
+          />
+          <UnitCost product={product} className="mt-1 text-[11px] text-ink-soft" />
+        </div>
       </div>
       <p className="mt-3 flex items-center gap-2 text-xs tracking-wide text-ink-soft">
         <span aria-hidden="true" className={`h-2 w-2 rounded-full ${inStock ? "bg-[#5aa469]" : "bg-ink-soft/50"}`} />

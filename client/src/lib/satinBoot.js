@@ -1,5 +1,5 @@
-const MIN_MS = 1400;
-const MIN_REDUCED_MS = 200;
+const MIN_MS = 2000;
+const MIN_REDUCED_MS = 400;
 const FADE_MS = 620;
 
 function waitForWindow() {
