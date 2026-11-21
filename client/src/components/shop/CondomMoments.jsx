@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { AmbientVideo } from "../home/AmbientVideo";
-import { Title } from "../motion/Title";
+import { DropText, dropLine, Title } from "../motion/Title";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -61,41 +62,81 @@ function SplitStory({ id, src, kicker, title, body, reverse, videoTint = "#e8e4e
   );
 }
 
-export function CondomMoments({ reduce }) {
+export function CondomMoments({ reduce, total }) {
   return (
     <>
-      {/* Full-bleed hero — one screen tall */}
-      <section aria-labelledby="condoms-hero-title" className="mt-10 w-full overflow-hidden lg:mt-12">
-        <div className="relative h-[100svh] min-h-[28rem] w-full bg-neutral-950">
+      {/* Full-bleed hero — page title lives on the video */}
+      <section aria-labelledby="condoms-hero-title" className="relative w-full overflow-hidden">
+        <div className="relative min-h-[100svh] w-full bg-neutral-950">
           <AmbientVideo
             src="/home/moments/moment-3.mp4"
             className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: "28% center" }}
+            style={{ objectPosition: "22% center" }}
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/15 lg:from-black/75 lg:via-black/30 lg:to-transparent" />
-          <div className="relative z-10 mx-auto flex h-full min-h-[inherit] max-w-7xl items-end px-5 pb-12 sm:px-8 sm:pb-16 lg:items-center lg:justify-start lg:pb-0">
-            <motion.div
-              className="max-w-lg text-paper"
-              initial={reduce ? false : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease }}
-            >
-              <p className="text-[11px] tracking-[0.28em] uppercase text-paper/80">Beyond Satin pads</p>
-              <Title as="h2" id="condoms-hero-title" className="mt-3 font-display text-4xl leading-[1.02] font-medium sm:text-5xl lg:text-[3.25rem]">
-                Condoms — prices as printed
-              </Title>
-              <p className="mt-4 max-w-md text-sm leading-7 text-paper/88 sm:text-base">
-                {lines.join(", ")}. Pack facts only — ask a clinician when you need guidance.
-              </p>
-              <a
-                href="#condoms-grid"
-                className="mt-7 inline-flex items-center gap-2 rounded-full bg-paper px-6 py-3 text-sm font-medium text-ink shadow-lg transition hover:bg-paper/95"
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/88 via-black/40 to-black/25 lg:bg-gradient-to-l lg:from-black/82 lg:via-black/45 lg:to-black/15" />
+
+          <div className="relative z-10 flex min-h-[100svh] flex-col px-5 pt-6 pb-12 sm:px-8 sm:pt-8 sm:pb-16 lg:pb-14">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <Link
+                to="/shop"
+                className="inline-flex items-center gap-2 text-sm text-paper/90 transition hover:text-paper"
               >
-                Shop packs
-                <ArrowRight size={16} aria-hidden="true" />
-              </a>
-            </motion.div>
+                <ArrowLeft size={15} aria-hidden="true" />
+                Back to Satin packs
+              </Link>
+              <Link
+                to="/medicine"
+                className="text-sm text-paper/85 underline-offset-4 transition hover:text-paper hover:underline"
+              >
+                Medicine instead
+              </Link>
+            </div>
+
+            <div className="mt-auto flex w-full flex-1 items-end justify-end lg:items-center">
+              <motion.div
+                className="flex w-full max-w-2xl flex-col items-end gap-7 text-right text-paper sm:gap-10 lg:max-w-3xl lg:pr-[clamp(1.5rem,6vw,4.5rem)]"
+                initial={reduce ? false : { opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease }}
+              >
+                <div className="space-y-4">
+                  <p className="text-xs tracking-[0.4em] uppercase text-paper/85 sm:text-[0.8125rem]">Beyond Satin pads</p>
+                  <p className="text-[11px] tracking-[0.32em] uppercase text-paper/75 sm:text-xs">{lines.join(" · ")}</p>
+                </div>
+                <div className="relative self-end">
+                  <motion.h1
+                    id="condoms-hero-title"
+                    className="font-display text-[clamp(3.25rem,10vw,6.75rem)] leading-[1.05] font-medium tracking-[0.04em] bg-gradient-to-br from-paper via-[#f6ebe3] to-[#e8c9d4] bg-clip-text text-transparent"
+                    initial={reduce ? false : "hidden"}
+                    animate="show"
+                    variants={dropLine}
+                  >
+                    <DropText text="Condoms" reduce={reduce} />
+                  </motion.h1>
+                  {typeof total === "number" && (
+                    <motion.span
+                      aria-hidden="true"
+                      className="absolute -top-1 -right-2 bg-[#d9e8f4] px-3 py-1.5 font-sans text-[clamp(0.65rem,1vw,0.85rem)] font-semibold tracking-[0.14em] text-ink uppercase shadow-[0_8px_16px_-8px_rgba(0,0,0,0.45)] sm:-right-10"
+                      initial={reduce ? false : { scale: 0, rotate: -30 }}
+                      animate={{ scale: 1, rotate: 6 }}
+                      transition={{ type: "spring", stiffness: 240, damping: 13, delay: 0.7 }}
+                    >
+                      {total === 1 ? "1 item" : `${total} items`}
+                    </motion.span>
+                  )}
+                </div>
+                <p className="max-w-lg text-lg leading-[1.9] tracking-[0.05em] text-paper/90 sm:text-xl sm:leading-9 lg:max-w-xl">
+                  Prices as printed on the pack. Pack facts only — ask a clinician when you need guidance.
+                </p>
+                <a
+                  href="#condoms-grid"
+                  className="mt-1 inline-flex items-center gap-2.5 rounded-full border-2 border-ink/35 bg-[#d9e8f4] px-8 py-3.5 text-base font-medium tracking-[0.06em] text-ink shadow-[0_12px_32px_-8px_rgba(20,56,76,0.45)] transition hover:border-ink/55 hover:bg-[#c5dce8]"
+                >
+                  Shop packs
+                  <ArrowRight size={18} aria-hidden="true" />
+                </a>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -136,7 +177,7 @@ export function CondomMoments({ reduce }) {
         title="Close moments, clear choices"
         body="Pick the line and count that match what’s on the shelf. Pack facts only — ask a clinician when you need guidance."
         reverse
-        panel="from-[#e8f0f6] to-[#dce8f2]"
+        panel="from-[#f6f0e8] to-[#ebe4db]"
       />
 
       <motion.div

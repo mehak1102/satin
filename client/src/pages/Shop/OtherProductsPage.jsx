@@ -247,48 +247,44 @@ function LineShop({ config }) {
   return (
     <div className={`relative isolate ${config.line === "condoms" ? "overflow-x-clip" : "overflow-hidden"}`}>
       <LeafShadows />
-      <section className={`mx-auto max-w-7xl px-5 pt-12 text-ink sm:px-8 ${config.line === "condoms" ? "pb-0" : "pb-0"}`}>
-        <Link to="/shop" className="inline-flex items-center gap-2 text-sm text-ink-soft transition hover:text-ink">
-          <ArrowLeft size={15} aria-hidden="true" />
-          Back to Satin packs
-        </Link>
-        <p className="mt-6 text-[11px] tracking-[0.28em] uppercase text-ink-soft">{config.eyebrow}</p>
-        <div className="relative mt-3 inline-block">
-          <motion.h1
-            className="font-display text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.92] font-medium tracking-[-0.02em]"
-            initial={reduce ? false : "hidden"}
-            animate="show"
-            variants={dropLine}
-          >
-            <DropText text={config.title} reduce={reduce} />
-          </motion.h1>
-          {typeof total === "number" && (
-            <motion.span
-              aria-hidden="true"
-              className={`absolute -top-2 -right-4 ${config.sticker} px-3 py-1.5 font-sans text-[clamp(0.65rem,1vw,0.85rem)] font-semibold tracking-[0.14em] uppercase shadow-[0_8px_16px_-8px_rgba(0,0,0,0.35)] sm:-right-12`}
-              initial={reduce ? false : { scale: 0, rotate: -30 }}
-              animate={{ scale: 1, rotate: 6 }}
-              transition={{ type: "spring", stiffness: 240, damping: 13, delay: 0.85 }}
+      {config.line === "condoms" ? (
+        <CondomMoments reduce={reduce} total={total} />
+      ) : (
+        <section className="mx-auto max-w-7xl px-5 pt-12 pb-0 text-ink sm:px-8">
+          <Link to="/shop" className="inline-flex items-center gap-2 text-sm text-ink-soft transition hover:text-ink">
+            <ArrowLeft size={15} aria-hidden="true" />
+            Back to Satin packs
+          </Link>
+          <p className="mt-6 text-[11px] tracking-[0.28em] uppercase text-ink-soft">{config.eyebrow}</p>
+          <div className="relative mt-3 inline-block">
+            <motion.h1
+              className="font-display text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.92] font-medium tracking-[-0.02em]"
+              initial={reduce ? false : "hidden"}
+              animate="show"
+              variants={dropLine}
             >
-              {total === 1 ? "1 item" : `${total} items`}
-            </motion.span>
-          )}
-        </div>
-        {config.line !== "condoms" && <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">{config.intro}</p>}
-        <div className={`flex flex-wrap gap-3 ${config.line === "condoms" ? "mt-5" : "mt-6"}`}>
-          {config.line === "condoms" ? (
-            <Link to="/medicine" className="inline-flex items-center gap-2 text-sm text-ink-soft underline-offset-4 hover:text-ink hover:underline">
-              Medicine instead
-            </Link>
-          ) : (
+              <DropText text={config.title} reduce={reduce} />
+            </motion.h1>
+            {typeof total === "number" && (
+              <motion.span
+                aria-hidden="true"
+                className={`absolute -top-2 -right-4 ${config.sticker} px-3 py-1.5 font-sans text-[clamp(0.65rem,1vw,0.85rem)] font-semibold tracking-[0.14em] uppercase shadow-[0_8px_16px_-8px_rgba(0,0,0,0.35)] sm:-right-12`}
+                initial={reduce ? false : { scale: 0, rotate: -30 }}
+                animate={{ scale: 1, rotate: 6 }}
+                transition={{ type: "spring", stiffness: 240, damping: 13, delay: 0.85 }}
+              >
+                {total === 1 ? "1 item" : `${total} items`}
+              </motion.span>
+            )}
+          </div>
+          <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">{config.intro}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/condoms" className="inline-flex items-center gap-2 text-sm text-ink-soft underline-offset-4 hover:text-ink hover:underline">
               Condoms instead
             </Link>
-          )}
-        </div>
-      </section>
-
-      {config.line === "condoms" && <CondomMoments reduce={reduce} />}
+          </div>
+        </section>
+      )}
 
       <section className={`mx-auto max-w-7xl px-5 text-ink sm:px-8 ${config.line === "condoms" ? "pb-24 pt-0" : "pb-24 pt-12"}`}>
         {config.line === "condoms" && (
