@@ -8,6 +8,8 @@ import { ProductCard } from "../../components/product/ProductCard";
 import { api, formatPrice } from "../../services/api";
 import { DropText, dropLine } from "../../components/motion/Title";
 import { LeafShadows } from "../../components/decor/LeafShadows";
+import { CondomClosingVideo } from "../../components/shop/CondomClosingVideo";
+import { CondomMoments } from "../../components/shop/CondomMoments";
 
 const sorts = [
   ["featured", "Featured"],
@@ -242,9 +244,9 @@ function LineShop({ config }) {
   }
 
   return (
-    <div className="relative isolate overflow-hidden">
+    <div className={`relative isolate ${config.line === "condoms" ? "overflow-x-clip" : "overflow-hidden"}`}>
       <LeafShadows />
-      <section className="mx-auto max-w-7xl px-5 pt-12 pb-24 text-ink sm:px-8">
+      <section className={`mx-auto max-w-7xl px-5 pt-12 text-ink sm:px-8 ${config.line === "condoms" ? "pb-0" : "pb-0"}`}>
         <Link to="/shop" className="inline-flex items-center gap-2 text-sm text-ink-soft transition hover:text-ink">
           <ArrowLeft size={15} aria-hidden="true" />
           Back to Satin packs
@@ -271,8 +273,8 @@ function LineShop({ config }) {
             </motion.span>
           )}
         </div>
-        <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">{config.intro}</p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        {config.line !== "condoms" && <p className="mt-5 max-w-lg text-base leading-7 text-ink-soft">{config.intro}</p>}
+        <div className={`flex flex-wrap gap-3 ${config.line === "condoms" ? "mt-5" : "mt-6"}`}>
           {config.line === "condoms" ? (
             <Link to="/medicine" className="inline-flex items-center gap-2 text-sm text-ink-soft underline-offset-4 hover:text-ink hover:underline">
               Medicine instead
@@ -283,8 +285,27 @@ function LineShop({ config }) {
             </Link>
           )}
         </div>
+      </section>
 
-        <div className="mt-10 rounded-[28px] border border-line bg-white/70 p-3 shadow-[0_24px_44px_-38px_rgba(20,56,76,0.6)] backdrop-blur sm:p-4">
+      {config.line === "condoms" && <CondomMoments reduce={reduce} />}
+
+      <section className={`mx-auto max-w-7xl px-5 text-ink sm:px-8 ${config.line === "condoms" ? "pb-24 pt-0" : "pb-24 pt-12"}`}>
+        {config.line === "condoms" && (
+          <motion.div
+            id="condoms-grid"
+            className="scroll-mt-28 mt-12 border-t border-line pt-10"
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="text-[11px] tracking-[0.28em] uppercase text-ink-soft">Shop</p>
+            <h2 className="mt-2 font-display text-3xl font-medium sm:text-4xl">All packs</h2>
+            <p className="mt-3 max-w-lg text-sm leading-7 text-ink-soft">Search, sort, and add to cart — prices as printed on each pack.</p>
+          </motion.div>
+        )}
+
+        <div className={`rounded-[28px] border border-line bg-white/70 p-3 shadow-[0_24px_44px_-38px_rgba(20,56,76,0.6)] backdrop-blur sm:p-4 ${config.line === "condoms" ? "mt-8" : "mt-10"}`}>
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
             <label className="relative flex-1">
               <span className="sr-only">Search products</span>
@@ -433,6 +454,7 @@ function LineShop({ config }) {
             <ArrowRight size={15} aria-hidden="true" />
           </Link>
         </div>
+        {config.line === "condoms" && <CondomClosingVideo />}
       </section>
     </div>
   );
