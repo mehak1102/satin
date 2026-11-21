@@ -161,6 +161,27 @@ a.rounded-full:hover {
   }
 }
 
+.bliss-visual-video {
+  display: block;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  filter: brightness(1.18) contrast(1.06);
+}
+
+.bliss-glass-panel {
+  background: rgba(252, 250, 246, 0.14);
+  -webkit-backdrop-filter: blur(28px) saturate(1.15);
+  backdrop-filter: blur(28px) saturate(1.15);
+}
+
+.bliss-showcase-type {
+  text-shadow: 0 1px 16px rgba(12, 8, 6, 0.35);
+}
+
+.hero-product-shadow {
+  filter: drop-shadow(0 28px 48px rgba(41, 37, 34, 0.18));
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

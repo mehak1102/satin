@@ -8,6 +8,7 @@ import { ProductCard } from "../../components/product/ProductCard";
 import { api, formatPrice } from "../../services/api";
 import { DropText, dropLine } from "../../components/motion/Title";
 import { LeafShadows } from "../../components/decor/LeafShadows";
+import { BlissVisual } from "../../components/shop/BlissVisual";
 import { CondomClosingVideo } from "../../components/shop/CondomClosingVideo";
 import { CondomMoments } from "../../components/shop/CondomMoments";
 
@@ -420,42 +421,87 @@ function LineShop({ config }) {
         )}
         <div className="mt-8 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((product, index) => (
-            <ProductCard key={product._id} product={product} index={index} />
+            <div key={product._id} id={product.slug === "night-bliss-3" ? "product-bliss" : undefined} className="scroll-mt-28">
+              <ProductCard product={product} index={index} />
+            </div>
           ))}
         </div>
-        {pages > 1 && (
-          <div className="mt-14 flex items-center justify-center gap-3 text-sm">
-            <button
-              type="button"
-              disabled={page <= 1}
-              onClick={() => setFilter("page", page <= 2 ? "" : String(page - 1))}
-              className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink disabled:opacity-40"
-            >
-              Previous
-            </button>
-            <span className="px-2 text-ink-soft">
-              Page {page} of {pages}
-            </span>
-            <button
-              type="button"
-              disabled={page >= pages}
-              onClick={() => setFilter("page", String(page + 1))}
-              className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink disabled:opacity-40"
-            >
-              Next
-            </button>
-          </div>
-        )}
 
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
-          <p className="text-sm text-ink-soft">Looking for Satin pads?</p>
-          <Link to="/shop" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-paper">
-            Shop Satin packs
-            <ArrowRight size={15} aria-hidden="true" />
-          </Link>
-        </div>
-        {config.line === "condoms" && <CondomClosingVideo />}
+        {config.line !== "condoms" && (
+          <>
+            {pages > 1 && (
+              <div className="mt-14 flex items-center justify-center gap-3 text-sm">
+                <button
+                  type="button"
+                  disabled={page <= 1}
+                  onClick={() => setFilter("page", page <= 2 ? "" : String(page - 1))}
+                  className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="px-2 text-ink-soft">
+                  Page {page} of {pages}
+                </span>
+                <button
+                  type="button"
+                  disabled={page >= pages}
+                  onClick={() => setFilter("page", String(page + 1))}
+                  className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
+            <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
+              <p className="text-sm text-ink-soft">Looking for Satin pads?</p>
+              <Link to="/shop" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-paper">
+                Shop Satin packs
+                <ArrowRight size={15} aria-hidden="true" />
+              </Link>
+            </div>
+          </>
+        )}
       </section>
+
+      {config.line === "condoms" && query.isSuccess && items.length > 0 && <BlissVisual reduce={reduce} />}
+
+      {config.line === "condoms" && (
+        <section className="mx-auto max-w-7xl px-5 pb-24 text-ink sm:px-8">
+          {pages > 1 && (
+            <div className="mt-14 flex items-center justify-center gap-3 text-sm">
+              <button
+                type="button"
+                disabled={page <= 1}
+                onClick={() => setFilter("page", page <= 2 ? "" : String(page - 1))}
+                className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink disabled:opacity-40"
+              >
+                Previous
+              </button>
+              <span className="px-2 text-ink-soft">
+                Page {page} of {pages}
+              </span>
+              <button
+                type="button"
+                disabled={page >= pages}
+                onClick={() => setFilter("page", String(page + 1))}
+                className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          )}
+
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
+            <p className="text-sm text-ink-soft">Looking for Satin pads?</p>
+            <Link to="/shop" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-paper">
+              Shop Satin packs
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          </div>
+          <CondomClosingVideo />
+        </section>
+      )}
     </div>
   );
 }
